@@ -7,7 +7,15 @@
 /dataSources/
 /dataSources.local.xml
 # Ignore all IntelliJ folders
-# User-specific stuff
 target/
 *.iml
 .idea/*
+# Ignore all NetBeans folders
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
