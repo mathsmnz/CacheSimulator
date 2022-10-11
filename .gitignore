@@ -7,4 +7,7 @@
 /dataSources/
 /dataSources.local.xml
 # Ignore all IntelliJ folders
-/.idea/
+# User-specific stuff
+target/
+*.iml
+.idea/*
