@@ -9,16 +9,16 @@ public class FileManager {
         try{
             File arquivo = new File(path);
             if(arquivo.createNewFile()){
-                System.out.println("|==>Arquivo criado com sucesso!");
-                System.out.println("|==>"+arquivo.getName());
-                System.out.println("|==>"+arquivo.getAbsolutePath());
+                System.out.println("[IO]|==>Arquivo criado com sucesso!");
+                System.out.println("[IO]|==>"+arquivo.getName());
+                System.out.println("[IO]|==>"+arquivo.getAbsolutePath());
                 return true;
             }else{
-                System.out.println("|==>Arquivo já existente");
+                System.out.println("[IO]|==>Arquivo já existente");
                 return false;
             }
         }catch (IOException e){
-            System.err.println("|==>Um erro foi encontrado");
+            System.err.println("[IO]|==>Um erro foi encontrado");
             e.printStackTrace();
         }
         return false;
@@ -72,7 +72,7 @@ public class FileManager {
         }
     }
 
-    //Responsável por ler os arquivos, devolvendo uma List com o que foi lido
+    //Responsável por ler os arquivos, devolvendo uma ArrayList com o que foi lido
     protected static ArrayList<Integer> fileReader(String path) {
         try {
             ArrayList<Integer> retval = new ArrayList<>();
@@ -84,7 +84,7 @@ public class FileManager {
             arquivo.close();
             return retval;
         } catch (FileNotFoundException e) {
-            System.err.println("|==>Erro! Arquivo nao encontrado");
+            System.err.println("[IO]|==>Erro! Arquivo nao encontrado");
             e.printStackTrace();
             return null;
         } catch (IOException e) {
@@ -98,10 +98,10 @@ public class FileManager {
     protected static boolean fileChecker(String path, String format) {
         File arquivo = new File(path + format);
         if (arquivo.isFile() && arquivo.exists()) {
-            System.out.println("|===| O arquivo \"" + path + "\" foi encontrado");
+            System.out.println("[IO]|===| O arquivo \"" + path + "\" foi encontrado");
             return true;
         } else {
-            System.out.println("|===| O arquivo \"" + path + "\" não foi encontrado");
+            System.out.println("[IO]|===| O arquivo \"" + path + "\" não foi encontrado");
             return false;
         }
     }
