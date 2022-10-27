@@ -1,10 +1,23 @@
 package main.util;
 
+import main.memoria.Cache;
+import main.memoria.Bloco;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import static main.util.UtilKt.isInteger;
+import static main.util.Util.isInteger;
+import static main.util.Util.log2;
 
+//<nsets> <bsize> <assoc> <    substituição     > <flag_saida>
+//                        <0-LRU 1-RANDOM 2-FIFO>
 public class CliParser {
+    private static int[] cacheConfig = new int[5];
+
+    public static Cache parseArgs(String[] args){
+        return new Cache(cacheConfig[0], cacheConfig[1], cacheConfig[2], cacheConfig[3]);
+    }
+
     public static Integer parse(String[] args){
         int argLength = args.length;
         switch (argLength) {
@@ -20,11 +33,24 @@ public class CliParser {
             }
             case 6 -> {
                 if (isInteger(args[0]) && isInteger(args[1]) && isInteger(args[2]) && isInteger(args[4])){
-                    int nsets = Integer.parseInt(args[0]);
-                    int bsize = Integer.parseInt(args[1]);
-                    int assoc = Integer.parseInt(args[2]);
+                    cacheConfig[0] = Integer.parseInt(args[0]); // n_sets
+                    cacheConfig[1] = Integer.parseInt(args[1]); // b_size
+                    cacheConfig[2] = Integer.parseInt(args[2]); // assoc
+//                  cacheConfig[3] = args[3]                    // substituicao
+                    cacheConfig[4] = Integer.parseInt(args[4]); // flag
+                    switch (args[3]) {
+                        case "l" -> cacheConfig[3] = 0;
+                        case "r" -> cacheConfig[3] = 1;
+                        case "f" -> cacheConfig[3] = 2;
+                        default -> System.exit(1);
+                    }
+
+                    int nsets = cacheConfig[0];
+                    int bsize = cacheConfig[1];
+                    int assoc = cacheConfig[2];
+                    int flagOut = cacheConfig[4];
+
                     String subst = args[3];
-                    int flagOut = Integer.parseInt(args[4]);
                     String arquivoEntrada = args[5];
 
                     System.out.printf("nsets = %d\n", nsets);

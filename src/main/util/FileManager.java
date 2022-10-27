@@ -23,7 +23,7 @@ public class FileManager {
         }
         return false;
     }
-
+    //Converte um int para um byte de acordo com o arquivo de entrada
     private static byte[] intToByte(int input){
         byte[] retVal = new byte[4];
 
@@ -35,7 +35,7 @@ public class FileManager {
         return retVal;
     }
 
-    //Responsável por escrever os dados fornecidos pelo usuário em um arquivo de texto
+    //Responsável por escrever os dados fornecidos pelo usuário em um arquivo de saída
     protected static boolean fileWriter(String path, ArrayList<Integer> input) {
         try {
             FileOutputStream arquivo = new FileOutputStream(path);
