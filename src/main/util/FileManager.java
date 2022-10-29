@@ -73,16 +73,20 @@ public class FileManager {
     }
 
     //Responsável por ler os arquivos, devolvendo uma ArrayList com o que foi lido
-    protected static ArrayList<Integer> fileReader(String path) {
+    public static ArrayList<Integer> fileReader(String path) {
         try {
-            ArrayList<Integer> retval = new ArrayList<>();
-            FileInputStream arquivo = new FileInputStream(path);
-            retval.add(binReader(arquivo));
-            while (arquivo.available() > 0) {
+            if(fileChecker(path)){
+                ArrayList<Integer> retval = new ArrayList<>();
+                FileInputStream arquivo = new FileInputStream(path);
                 retval.add(binReader(arquivo));
+                while (arquivo.available() > 0) {
+                    retval.add(binReader(arquivo));
+                }
+                arquivo.close();
+                return retval;
+            }else{
+                return null;
             }
-            arquivo.close();
-            return retval;
         } catch (FileNotFoundException e) {
             System.err.println("[IO]|==>Erro! Arquivo nao encontrado");
             e.printStackTrace();
@@ -95,8 +99,8 @@ public class FileManager {
 
     //Verifica se o arquivo existe e é de fato um arquivo, depois devolvendo se a operação foi um sucesso
     //Retorna também, uma mensagem ao usuário relevante á operação feita
-    protected static boolean fileChecker(String path, String format) {
-        File arquivo = new File(path + format);
+    protected static boolean fileChecker(String path) {
+        File arquivo = new File(path);
         if (arquivo.isFile() && arquivo.exists()) {
             System.out.println("[IO]|===| O arquivo \"" + path + "\" foi encontrado");
             return true;

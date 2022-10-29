@@ -1,24 +1,32 @@
 package main.util;
 
 import main.memoria.Cache;
-import main.memoria.Bloco;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 import static main.util.Util.isInteger;
-import static main.util.Util.log2;
 
-//<nsets> <bsize> <assoc> <    substituição     > <flag_saida>
+//<nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
 //                        <0-LRU 1-RANDOM 2-FIFO>
 public class CliParser {
-    private static int[] cacheConfig = new int[5];
+    private String[] args;
+    private int[] cacheConfig = new int[5];
+    private String path;
 
-    public static Cache parseArgs(String[] args){
+    public String getPath() {
+        return path;
+    }
+
+    public CliParser(String[] args){
+        this.args = args;
+    }
+
+    public Cache generateCache() {
         return new Cache(cacheConfig[0], cacheConfig[1], cacheConfig[2], cacheConfig[3]);
     }
 
-    public static Integer parse(String[] args){
+    public Integer parse() {
         int argLength = args.length;
         switch (argLength) {
             default -> {
@@ -32,17 +40,20 @@ public class CliParser {
                 return 0;
             }
             case 6 -> {
-                if (isInteger(args[0]) && isInteger(args[1]) && isInteger(args[2]) && isInteger(args[4])){
+                if (isInteger(args[0]) && isInteger(args[1]) && isInteger(args[2]) && isInteger(args[4])) {
                     cacheConfig[0] = Integer.parseInt(args[0]); // n_sets
                     cacheConfig[1] = Integer.parseInt(args[1]); // b_size
                     cacheConfig[2] = Integer.parseInt(args[2]); // assoc
 //                  cacheConfig[3] = args[3]                    // substituicao
                     cacheConfig[4] = Integer.parseInt(args[4]); // flag
+                    args[3] = args[3].toLowerCase(Locale.ROOT);
                     switch (args[3]) {
                         case "l" -> cacheConfig[3] = 0;
                         case "r" -> cacheConfig[3] = 1;
                         case "f" -> cacheConfig[3] = 2;
-                        default -> System.exit(1);
+                        default -> {
+                            System.out.println("[ARGS]|==>Erro, modo de substiuição não reconhecido!");
+                        }
                     }
 
                     int nsets = cacheConfig[0];
@@ -52,6 +63,7 @@ public class CliParser {
 
                     String subst = args[3];
                     String arquivoEntrada = args[5];
+                    this.path = arquivoEntrada;
 
                     System.out.printf("nsets = %d\n", nsets);
                     System.out.printf("bsize = %d\n", bsize);

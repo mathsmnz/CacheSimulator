@@ -5,6 +5,10 @@ public class Util {
         return (int)(Math.log(input) / Math.log(2));
     }
 
+    public static void printHelp(){
+        System.out.println("TO DO");
+    }
+
     public static Boolean isInteger(String input) {
         if (input == null) {
             return false;
