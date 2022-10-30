@@ -1,5 +1,8 @@
 package main.memoria;
 
+/**
+ * classe Bloco
+ */
 public class Bloco {
 
     private int endereco = -1;
@@ -10,27 +13,49 @@ public class Bloco {
     private int currentUsage;
     private int firstElement;
     private Celula[] celulas;
-
+    
+    /**
+     * classe Celula
+     */
     public class Celula {
+        private boolean IsEmpty;
+        private boolean IsDirty;
+        
+        /**
+         * 
+         * @return se a celula está vazia
+         */
         public boolean isEmpty() {
             return IsEmpty;
         }
-
+        
+        /**
+         * 
+         * @param empty muda o estado boolean da célula
+         */
         public void setEmpty(boolean empty) {
             IsEmpty = empty;
         }
-
+        
+        /**
+         * 
+         * @return se a celula está suja
+         */
         public boolean isDirty() {
             return IsDirty;
         }
-
+        
+        /**
+         * 
+         * @param dirty muda o estado boolean da célula
+         */
         public void setDirty(boolean dirty) {
             IsDirty = dirty;
         }
-
-        private boolean IsEmpty;
-        private boolean IsDirty;
-
+        
+        /**
+         * Construtor Celula
+         */
         public Celula() {
             this.IsDirty = false;
             this.IsEmpty = true;
@@ -103,18 +128,27 @@ public class Bloco {
     public void setLastUsed(int lastUsed) {
         this.lastUsed = lastUsed;
     }
-
+    
+    /**
+     * 
+     * @param indice 
+     * @param offset
+     */
     public Bloco(int indice, int offset) {
         setIndice(indice);
         setCapacity((int) Math.pow(offset, 2));
         setCelulas(new Celula[getCapacity()]);
     }
 
-    //Return values:
-    // Erro -> -1
-    // Ha espaco -> 0
-    // Miss de capacidade -> 2
-    // Miss de conflito -> 1
+    /**
+     * 
+     * @param offset
+     * @return valores 
+     * Erro -> -1
+     * Ha espaco -> 0
+     * Miss de Conflito -> 1
+     * Miss de capacidade -> 2
+     */
     public int access(int offset) {
         if (getCelulas() == null) {
             return -1;
