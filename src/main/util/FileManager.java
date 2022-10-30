@@ -5,8 +5,17 @@ import java.util.ArrayList;
 
 import static main.util.RuntimeData.getOutputFlag;
 
+/**
+ * Classe FileManager
+ * Manipula os arquivos
+ */
 public class FileManager {
-    //Responsável por criar o arquivo caso necessário
+
+    /**
+     * Responsável por criar o arquivo caso necessário
+     * @param path 
+     * @return
+     */
     protected static boolean fileCreator(String path) {
         try {
             File arquivo = new File(path);
@@ -32,7 +41,11 @@ public class FileManager {
         return false;
     }
 
-    //Converte um int para um byte de acordo com o arquivo de entrada
+    /**
+     * Converte um int para um byte de acordo com o arquivo de entrada
+     * @param input
+     * @return "valor" convertido
+     */
     private static byte[] intToByte(int input) {
         byte[] retVal = new byte[4];
 
@@ -44,7 +57,13 @@ public class FileManager {
         return retVal;
     }
 
-    //Responsável por escrever os dados fornecidos pelo usuário em um arquivo de saída
+   /**
+     *  Responsável por escrever os dados fornecidos 
+     *  pelo usuário em um arquivo de saída
+     * @param path
+     * @param input
+     * @return arquivo de saída
+     */
     protected static boolean fileWriter(String path, ArrayList<Integer> input) {
         try {
             FileOutputStream arquivo = new FileOutputStream(path);
@@ -67,7 +86,12 @@ public class FileManager {
             return false;
         }
     }
-
+    
+    /**
+     *
+     * @param arquivo de entrada
+     * @return
+     */
     private static int binReader(FileInputStream arquivo) {
         try {
             byte[] bytes = arquivo.readNBytes(4);
@@ -81,7 +105,11 @@ public class FileManager {
         }
     }
 
-    //Responsável por ler os arquivos, devolvendo uma ArrayList com o que foi lido
+   /**
+     * Responsável por ler os arquivos, devolvendo uma ArrayList com o que foi lido
+     * @param path
+     * @return ArrayList do que foi lido
+     */
     public static ArrayList<Integer> fileReader(String path) {
         try {
             if (fileChecker(path)) {
@@ -114,8 +142,12 @@ public class FileManager {
         }
     }
 
-    //Verifica se o arquivo existe e é de fato um arquivo, depois devolvendo se a operação foi um sucesso
-    //Retorna também, uma mensagem ao usuário relevante á operação feita
+    /**
+     * Verifica se o arquivo existe e é de fato um arquivo,
+     * depois devolvendo se a operação foi um sucesso
+     * @param path
+     * @return uma mensagem ao usuário relevante á operação feita
+     */
     protected static boolean fileChecker(String path) {
         File arquivo = new File(path);
         if (arquivo.isFile() && arquivo.exists()) {
