@@ -61,70 +61,134 @@ public class Bloco {
             this.IsEmpty = true;
         }
     }
-
+    
+    /**
+     * 
+     * @return primeiro elemento
+     */
     public int getFirstElement() {
         return firstElement;
     }
-
+    
+    /**
+     * 
+     * @param firstElement primeiro elemento da fila
+     */
     public void setFirstElement(int firstElement) {
         this.firstElement = firstElement;
     }
-
+    
+    /**
+     * 
+     * @return uso da cache
+     */
     public int getCurrentUsage() {
         return currentUsage;
     }
-
+    
+    /**
+     * 
+     * @param currentUsage 
+     */
     public void setCurrentUsage(int currentUsage) {
         this.currentUsage = currentUsage;
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public Celula[] getCelulas() {
         return celulas;
     }
-
+    
+    /**
+     * 
+     * @param celulas
+     */
     public void setCelulas(Celula[] celulas) {
         this.celulas = celulas;
         for(int i = 0; i < getCapacity(); i++){
             this.celulas[i] = new Celula();
         }
     }
-
+    
+    /**
+     * 
+     * @return retorna capacidade
+     */
     public int getCapacity() {
         return capacity;
     }
-
+    
+    /**
+     * 
+     * @param capacity
+     */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
-
+    
+    /**
+     * 
+     * @return retorna o endereco
+     */
     public int getEndereco() {
         return endereco;
     }
-
+    
+    /**
+     * 
+     * @param endereco
+     */
     public void setEndereco(int endereco) {
         this.endereco = endereco;
     }
-
+    
+    /**
+     * 
+     * @return retorna a tag
+     */
     public int getTag() {
         return tag;
     }
-
+    
+    /**
+     * 
+     * @param tag
+     */
     public void setTag(int tag) {
         this.tag = tag;
     }
-
+    
+    /**
+     * 
+     * @return retorna o indice
+     */
     public int getIndice() {
         return indice;
     }
-
+    
+    /**
+     * 
+     * @param indice
+     */
     public void setIndice(int indice) {
         this.indice = indice;
     }
-
+    
+    /**
+     * 
+     * @return retorna o ultimo acesso
+     */
     public int getLastUsed() {
         return lastUsed;
     }
-
+    
+    /**
+     * 
+     * @param lastUsed
+     */
     public void setLastUsed(int lastUsed) {
         this.lastUsed = lastUsed;
     }
