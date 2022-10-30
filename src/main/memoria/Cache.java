@@ -16,10 +16,7 @@ public class Cache {
     private int tag;
     private int indice;
     private int sub;
-    private int max_capacidade;
     private int capacidade = 0;
-    private int hit_count = 0;
-    private int miss_count = 0;
     private ArrayList<Bloco> blocos;
     
     /**
