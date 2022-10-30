@@ -8,25 +8,44 @@ import java.util.Locale;
 import static main.util.RuntimeData.*;
 import static main.util.Util.isInteger;
 
-//<nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
-//                        <0-LRU 1-RANDOM 2-FIFO>
+/**
+ * Classe CliParser
+ * <nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
+ *                        <0-LRU 1-RANDOM 2-FIFO>
+ */
 public class CliParser {
     private String[] args;
     private int[] cacheConfig = new int[5];
     private String path;
-
+    
+    /**
+     * 
+     * @return
+     */
     public String getPath() {
         return path;
     }
-
+    
+   /**
+     * 
+     * @param args
+     */ 
     public CliParser(String[] args){
         this.args = args;
     }
-
+    
+    /**
+     * 
+     * @return
+     */
     public Cache generateCache() {
         return new Cache(cacheConfig[0], cacheConfig[1], cacheConfig[2], cacheConfig[3]);
     }
-
+    
+    /**
+     * 
+     * @return
+     */
     public Integer parse() {
         int argLength = args.length;
         switch (argLength) {
