@@ -20,7 +20,7 @@ public class CliParser {
     
     /**
      * 
-     * @return
+     * @return o caminho
      */
     public String getPath() {
         return path;
@@ -36,7 +36,7 @@ public class CliParser {
     
     /**
      * 
-     * @return
+     * @return uma nova cache com as configurações dadas
      */
     public Cache generateCache() {
         return new Cache(cacheConfig[0], cacheConfig[1], cacheConfig[2], cacheConfig[3]);
