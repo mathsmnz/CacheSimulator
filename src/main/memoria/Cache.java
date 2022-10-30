@@ -37,20 +37,6 @@ public class Cache {
         return retVal;
     }
 
-    //0- Miss de conflito
-    //1- Miss de capacidade
-    //2- Miss compulsório
-    //3- Hit
-    public int operation(int address) {
-        int[] vars = decode(address);
-
-        return 0;
-    }
-
-    private int leitura(int address, int[] vars){
-        return 0;
-    }
-
     private boolean read(int endereco) {
         for (Bloco bloco : blocos) {
             if (bloco.getEndereco() == endereco) {
@@ -116,7 +102,7 @@ public class Cache {
     }
 
     private void random(int endereco){
-        
+
         if (this.read(endereco) == false){
             this.miss_count++;
             this.write(endereco);

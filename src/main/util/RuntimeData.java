@@ -2,8 +2,8 @@ package main.util;
 
 public class RuntimeData {
     private static int outputFlag = 1;
-    private static int debugMode = 0;
-    private static int addressCount = 0;
+    private static int debugMode = 1;
+    private static int addressCount = 1;
     private static int missCompulsorio = 0;
     private static int missConflito = 0;
     private static int missCapacidade = 0;
@@ -37,17 +37,22 @@ public class RuntimeData {
     }
 
     public static void setAddressCount(int addressCount) {
-        RuntimeData.addressCount = addressCount;
+        if (addressCount != 0) {
+            RuntimeData.addressCount = addressCount;
+        }
     }
 
     public static String getOutputlog() {
         int totalMisses = getMissCapacidade() + getMissCompulsorio() + getMissConflito();
+
+        if (totalMisses == 0) totalMisses = 1;
+
         float compulsoryMissRate = (float) getMissCompulsorio() / (float) totalMisses;
         float capacityMissRate = (float) getMissCapacidade() / (float) totalMisses;
         float conflictMissRate = (float) getMissConflito() / (float) totalMisses;
         int totalHits = getAddressCount() - totalMisses;
         float hitRate = (float) totalHits / (float) getAddressCount();
-        float missRate = 1- hitRate;
+        float missRate = 1 - hitRate;
         return String.format("%d %.2f %.2f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
 
     }

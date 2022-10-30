@@ -1,8 +1,15 @@
 package main.util;
 
+import java.util.Random;
+
 public class Util {
     public static int log2(int input){
         return (int)(Math.log(input) / Math.log(2));
+    }
+
+    public static int getRandom(int upperBound){
+        Random random = new Random();
+        return random.nextInt(upperBound);
     }
 
     public static void printHelp(){

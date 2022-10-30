@@ -6,8 +6,8 @@ import main.util.FileManager;
 
 import java.util.ArrayList;
 
-import static main.util.RuntimeData.getDebugMode;
-import static main.util.RuntimeData.getOutputlog;
+import static main.util.RuntimeData.*;
+import static main.util.Util.getRandom;
 import static main.util.Util.printHelp;
 
 public class Main extends FileManager {
@@ -21,15 +21,22 @@ public class Main extends FileManager {
                     Cache cache = parser.generateCache();
                     ArrayList<Integer> enderecos = fileReader(parser.getPath());
                     if(enderecos != null){
+                        setAddressCount(enderecos.size());
                         for (int endereco: enderecos) {
-                            System.out.println("TODO");
+                            if(getOutputFlag() == 0){
+                                System.out.println("TODO");
+                            }
                         }
+                        System.out.println(getOutputlog());
                     }
-                    System.out.println(getOutputlog());
                 }
             }
         } else {
-            System.out.println("INSERT TEST HERE");
+            CliParser parser = new CliParser(args);
+            ArrayList<Integer> end = fileReader(args[5]);
+            for(int i = 0; i < end.size(); i++){
+                System.out.printf("%d -- > %d\n", i, getRandom(5));
+            }
         }
     }
 }
