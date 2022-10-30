@@ -7,6 +7,7 @@ import main.util.FileManager;
 import java.util.ArrayList;
 
 import static main.util.RuntimeData.getDebugMode;
+import static main.util.RuntimeData.getOutputlog;
 import static main.util.Util.printHelp;
 
 public class Main extends FileManager {
@@ -19,15 +20,16 @@ public class Main extends FileManager {
                 case 1 -> {
                     Cache cache = parser.generateCache();
                     ArrayList<Integer> enderecos = fileReader(parser.getPath());
+                    if(enderecos != null){
+                        for (int endereco: enderecos) {
+                            System.out.println("TODO");
+                        }
+                    }
+                    System.out.println(getOutputlog());
                 }
             }
         } else {
-            Cache cache = new Cache(256, 2, 4, 2);
-            int[] arr = cache.decode(167);
-            System.out.println(arr[0]);
-            System.out.println(arr[1]);
-            System.out.println(arr[2]);
-            System.out.println(arr[3]);
+            System.out.println("INSERT TEST HERE");
         }
     }
 }

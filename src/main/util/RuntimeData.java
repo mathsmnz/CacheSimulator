@@ -2,7 +2,8 @@ package main.util;
 
 public class RuntimeData {
     private static int outputFlag = 1;
-    private static int debugMode = 1;
+    private static int debugMode = 0;
+    private static int addressCount = 0;
     private static int missCompulsorio = 0;
     private static int missConflito = 0;
     private static int missCapacidade = 0;
@@ -19,16 +20,36 @@ public class RuntimeData {
         missConflito = missConflito + amount;
     }
 
-    public int getMissCompulsorio() {
+    public static int getMissCompulsorio() {
         return missCompulsorio;
     }
 
-    public int getMissConflito() {
+    public static int getMissConflito() {
         return missConflito;
     }
 
-    public int getMissCapacidade() {
+    public static int getMissCapacidade() {
         return missCapacidade;
+    }
+
+    public static int getAddressCount() {
+        return addressCount;
+    }
+
+    public static void setAddressCount(int addressCount) {
+        RuntimeData.addressCount = addressCount;
+    }
+
+    public static String getOutputlog() {
+        int totalMisses = getMissCapacidade() + getMissCompulsorio() + getMissConflito();
+        float compulsoryMissRate = (float) getMissCompulsorio() / (float) totalMisses;
+        float capacityMissRate = (float) getMissCapacidade() / (float) totalMisses;
+        float conflictMissRate = (float) getMissConflito() / (float) totalMisses;
+        int totalHits = getAddressCount() - totalMisses;
+        float hitRate = (float) totalHits / (float) getAddressCount();
+        float missRate = 1- hitRate;
+        return String.format("%d %.2f %.2f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
+
     }
 
     public static int getOutputFlag() {

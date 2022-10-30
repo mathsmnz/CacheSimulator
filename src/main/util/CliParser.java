@@ -5,6 +5,7 @@ import main.memoria.Cache;
 import java.util.Arrays;
 import java.util.Locale;
 
+import static main.util.RuntimeData.*;
 import static main.util.Util.isInteger;
 
 //<nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
@@ -31,8 +32,10 @@ public class CliParser {
         switch (argLength) {
             default -> {
                 //System.out.println(args.length);
-                System.out.println("Numero de argumentos incorreto. Utilize:");
-                System.out.println("java cache_simulator <nsets> <bsize> <assoc> <substituição> <flag_saida> arquivo_de_entrada");
+                if (getOutputFlag() == 0) {
+                    System.out.println("[ARGS]|==>Numero de argumentos incorreto. Utilize:");
+                    System.out.println("[ARGS]|==>java cache_simulator <nsets> <bsize> <assoc> <substituição> <flag_saida> arquivo_de_entrada");
+                }
                 System.exit(1);
             }
             case 1 -> {
@@ -46,6 +49,13 @@ public class CliParser {
                     cacheConfig[2] = Integer.parseInt(args[2]); // assoc
 //                  cacheConfig[3] = args[3]                    // substituicao
                     cacheConfig[4] = Integer.parseInt(args[4]); // flag
+                    if(cacheConfig[4] == 0){
+                        setOutputFlag(0);
+                        setDebugMode(1);
+                    }else{
+                        setOutputFlag(1);
+                        setDebugMode(0);
+                    }
                     args[3] = args[3].toLowerCase(Locale.ROOT);
                     switch (args[3]) {
                         case "l" -> cacheConfig[3] = 0;
@@ -65,12 +75,15 @@ public class CliParser {
                     String arquivoEntrada = args[5];
                     this.path = arquivoEntrada;
 
-                    System.out.printf("nsets = %d\n", nsets);
-                    System.out.printf("bsize = %d\n", bsize);
-                    System.out.printf("assoc = %d\n", assoc);
-                    System.out.printf("subst = %s\n", subst);
-                    System.out.printf("flagOut = %d\n", flagOut);
-                    System.out.printf("arquivo = %s\n", arquivoEntrada);
+                    if(getOutputFlag() == 0){
+                        System.out.println("[ARGS]|==>Os argumentos inseridos foram:");
+                        System.out.printf("[ARGS]|==>nsets = %d\n", nsets);
+                        System.out.printf("[ARGS]|==>bsize = %d\n", bsize);
+                        System.out.printf("[ARGS]|==>assoc = %d\n", assoc);
+                        System.out.printf("[ARGS]|==>subst = %s\n", subst);
+                        System.out.printf("[ARGS]|==>flagOut = %d\n", flagOut);
+                        System.out.printf("[ARGS]|==>arquivo = %s\n", arquivoEntrada);
+                    }
                     return 1;
                 }
             }
