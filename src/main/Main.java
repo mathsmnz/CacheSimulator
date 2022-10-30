@@ -5,9 +5,9 @@ import main.util.CliParser;
 import main.util.FileManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static main.util.RuntimeData.*;
-import static main.util.Util.getRandom;
 import static main.util.Util.printHelp;
 
 public class Main extends FileManager {
@@ -20,11 +20,11 @@ public class Main extends FileManager {
                 case 1 -> {
                     Cache cache = parser.generateCache();
                     ArrayList<Integer> enderecos = fileReader(parser.getPath());
-                    if(enderecos != null){
+                    if (enderecos != null) {
                         setAddressCount(enderecos.size());
-                        for (int endereco: enderecos) {
-                            if(getOutputFlag() == 0){
-                                System.out.println("TODO");
+                        for (int endereco : enderecos) {
+                            if (getOutputFlag() == 0) {
+                                cache.find(endereco);
                             }
                         }
                         System.out.println(getOutputlog());
@@ -32,10 +32,13 @@ public class Main extends FileManager {
                 }
             }
         } else {
-            CliParser parser = new CliParser(args);
-            ArrayList<Integer> end = fileReader(args[5]);
-            for(int i = 0; i < end.size(); i++){
-                System.out.printf("%d -- > %d\n", i, getRandom(5));
+            ArrayList<Integer> enderecos = fileReader(args[5]);
+            HashSet<Integer> possibleReads = new HashSet<>(enderecos);
+            int enderecoLido = 13;
+            if (possibleReads.add(enderecoLido)) {
+                //Do stuff
+            } else {
+                //Erro a decidir
             }
         }
     }

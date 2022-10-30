@@ -1,9 +1,9 @@
 package main.memoria;
 
 import java.util.ArrayList;
-import java.util.Random;
-import main.util.Util;
-import main.util.RuntimeData;
+
+import static main.util.RuntimeData.*;
+import static main.util.Util.getRandom;
 import static main.util.Util.log2;
 
 public class Cache {
@@ -13,7 +13,8 @@ public class Cache {
     private int tag;
     private int indice;
     private int sub;
-    private int capacidade;
+    private int max_capacidade;
+    private int capacidade = 0;
     private int hit_count = 0;
     private int miss_count = 0;
     private ArrayList<Bloco> blocos;
@@ -24,11 +25,17 @@ public class Cache {
         this.setTag(32 - getOffset() - getIndice());
         this.setAssoc(assoc);
         this.setSub(sub);
-        this.capacidade = assoc*nset;
-        setBlocos(new ArrayList<>(assoc * nset));
+        this.capacidade = assoc * nset;
+        setBlocos(new ArrayList<>(capacidade));
+        initBlocos(assoc, nset);
     }
 
-    private int[] decode(int address){
+    private void initBlocos(int assoc, int nset){
+        for(int i = 0; i < assoc * nset; i++){
+            blocos.add(i, new Bloco(getIndice(), getOffset()));
+        }
+    }
+    private int[] decode(int address) {
         int[] retVal = new int[4];
         retVal[0] = address; // address
         retVal[1] = address >> (this.offset + this.indice); // tag
@@ -37,90 +44,80 @@ public class Cache {
         return retVal;
     }
 
+    //Retorna falso caso já tenha algo na cache
     private boolean read(int endereco) {
-        for (Bloco bloco : blocos) {
-            if (bloco.getEndereco() == endereco) {
-                Bloco temp = bloco;
-                this.hit_count++;
-                if (assoc == 1) {
-                    return !temp.getCelulas()[0].isEmpty();
-                } else {
-                    int off = endereco;
-                    return !temp.getCelulas()[off].isEmpty();
+        int[] args = decode(endereco);
+        Bloco bloco = blocos.get(args[3]);
+        if(bloco.getEndereco() == -1){
+            bloco.setEndereco(endereco);
+        }
+
+        int pos = 0;
+        if(getAssoc() > 1){
+            pos = args[2];
+        }
+
+        return !bloco.getCelulas()[pos].isEmpty();
+    }
+
+    /**
+     * Método de para escrita em cache
+     *
+     * @param endereco endereco para a realizacao da leitura
+     * @return resultado da leitura
+     */
+    //Possiveis retornos
+    //0 - Escrita com erro compulsorio
+    //1 - Escrita com erro de conflito
+    //2 - Escrita com erro de capacidade
+    private int write(int endereco) {
+        if (getBlocos() != null) {
+            for (Bloco bloco : getBlocos()) {
+                int pos = 0;
+                if (getAssoc() > 1) {
+                    int off = decode(endereco)[2];
+                    switch (getSub()) {
+                        case 1 -> pos = getRandom(off);
+                        case 2 -> pos = bloco.getFirstElement();
+                        case 3 -> pos = bloco.getLastUsed();
+                        default -> {
+                            if (getOutputFlag() == 0) {
+                                System.out.println("[CACHE]|==>Erro ao escolher modo de substiuição");
+                            }
+                        }
+                    }
+                }
+                if (bloco.getEndereco() == endereco) {
+                    int output = bloco.access(pos);
+
+                    switch (output) {
+                        case 0 -> setMissCompulsorio(1);
+                        case 1 -> setMissConflito(1);
+                        case 2 -> {
+                            setMissCapacidade(1);
+                            setLinesFilled(1);
+                        }
+                    }
+
+                    if (getOutputFlag() == 0) {
+                        switch (output) {
+                            case 1 -> System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
+                            case 0 -> System.out.printf("[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
+                            case 2 -> System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
+                        }
+                    }
+
+                    return output;
                 }
             }
         }
-        return false;
+        return -1;
     }
 
-    private boolean write(int endereco) {
-        for (Bloco bloco : blocos) {
-            if (bloco.getEndereco() == endereco) {
-                Bloco temp = bloco;
-                if (assoc == 1) {
-                    if (temp.getCelulas()[0].isEmpty()) {
-                        temp.getCelulas()[0].setEmpty(false);
-                        return true;
-                    } else {
-                        temp.getCelulas()[0].setDirty(true);
-                        return false;
-                    }
-                } else {
-                    int off = endereco;
-                    if (temp.getCelulas()[off].isEmpty()) {
-                        temp.getCelulas()[off].setEmpty(false);
-                        return true;
-                    } else {
-                        temp.getCelulas()[off].setDirty(true);
-                        return false;
-                    }
-                }
-            }
+    public void find(int endereco) {
+        if (!read(endereco)) {
+            write(endereco);
         }
-        return false;
-    }
-
-    private void find(int endereco){
-        int aux = this.getSub();
-        switch (aux) {
-            // random
-            case 1:
-                this.random(endereco);
-                break;
-            // FIFO
-            case 2:
-                this.fifo(endereco);
-                break;
-            // LRU
-            case 3:
-                this.lru(endereco);
-                break;
-            default:
-                this.random(endereco);
-                break;
-        }
-    }
-
-    private void random(int endereco){
-
-        if (this.read(endereco) == false){
-            this.miss_count++;
-            this.write(endereco);
-        }else{
-            Random r = new Random();
-            int max = this.tag;
-            int posicao = r.nextInt(max);
-            this.write(posicao);
-        }
-
-    }
-
-    private void fifo(int endereco){
-        // algo aqui
-    }
-
-    private void lru(int endereco){
-        // algo aqui
     }
 
     public int getAssoc() {

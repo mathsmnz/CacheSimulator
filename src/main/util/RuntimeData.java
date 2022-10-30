@@ -1,22 +1,48 @@
 package main.util;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class RuntimeData {
     private static int outputFlag = 1;
-    private static int debugMode = 1;
+    private static int debugMode = 0;
     private static int addressCount = 1;
+    public static int linesFilled = 0;
     private static int missCompulsorio = 0;
     private static int missConflito = 0;
     private static int missCapacidade = 0;
+    static Queue<Integer> q = new LinkedList<>();
 
-    public void setMissCompulsorio(int amount) {
+    public static void setQueue(int posicao) {
+        q.add(posicao);
+    }
+
+    public static Queue<Integer> getQueue() {
+        return q;
+    }
+
+    public static Queue<Integer> removeQueue(){
+        q.remove();
+        return q;
+    }
+
+    public static void setLinesFilled(int amount){
+        linesFilled = linesFilled + amount;
+    }
+
+    public static int getLinesFilled(){
+        return RuntimeData.linesFilled;
+    }
+
+    public static void setMissCompulsorio(int amount) {
         missCompulsorio = missCompulsorio + amount;
     }
 
-    public void setMissCapacidade(int amount) {
+    public static void setMissCapacidade(int amount) {
         missCapacidade = missCapacidade + amount;
     }
 
-    public void setMissConflito(int amount) {
+    public static void setMissConflito(int amount) {
         missConflito = missConflito + amount;
     }
 

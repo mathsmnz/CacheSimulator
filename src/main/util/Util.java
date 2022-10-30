@@ -2,20 +2,42 @@ package main.util;
 
 import java.util.Random;
 
+/**
+ * Classe Util
+ */
 public class Util {
+
+    /**
+     * Método de conversão
+     * @param input numero para converter para base 2
+     * @return base 2
+     */
     public static int log2(int input){
         return (int)(Math.log(input) / Math.log(2));
     }
 
-    public static int getRandom(int upperBound){
-        Random random = new Random();
-        return random.nextInt(upperBound);
+    /**
+     * Método random
+     * @param upper numero máximo de random
+     * @return numero aleatorio
+     */
+    public static int getRandom(int upper) {
+        Random r =  new Random();
+        return r.nextInt(upper);
     }
 
+    /**
+     * Método auxiliar
+     */
     public static void printHelp(){
         System.out.println("TO DO");
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     public static Boolean isInteger(String input) {
         if (input == null) {
             return false;
