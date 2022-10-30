@@ -1,8 +1,5 @@
 package main.util;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * Classe RuntimeData
  */
@@ -14,20 +11,6 @@ public class RuntimeData {
     private static int missCompulsorio = 0;
     private static int missConflito = 0;
     private static int missCapacidade = 0;
-    static Queue<Integer> q = new LinkedList<>();
-
-    public static void setQueue(int posicao) {
-        q.add(posicao);
-    }
-
-    public static Queue<Integer> getQueue() {
-        return q;
-    }
-
-    public static Queue<Integer> removeQueue(){
-        q.remove();
-        return q;
-    }
     
     /**
      * 
