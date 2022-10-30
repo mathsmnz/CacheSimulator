@@ -88,9 +88,9 @@ public class FileManager {
     }
     
     /**
-     *
+     * Lê o arquivo binário
      * @param arquivo de entrada
-     * @return
+     * @return -1 em caso de erro
      */
     private static int binReader(FileInputStream arquivo) {
         try {
