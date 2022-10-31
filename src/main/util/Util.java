@@ -45,6 +45,8 @@ public class Util {
 
     /**
      * Método para converter um endereco em uma string de 32
+     * @param address recebe endereco
+     * @return retorna uma string do endereco em 32b
      */
     public static String addressToBinary(int address) {
         String s = Integer.toBinaryString(address);
