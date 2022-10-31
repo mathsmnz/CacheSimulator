@@ -5,8 +5,7 @@ package main.memoria;
  */
 public class Bloco {
 
-    private int endereco = -1;
-    private int tag;
+    private int endereco;
     private int indice;
     private int lastUsed;
     private int capacity;
@@ -18,8 +17,26 @@ public class Bloco {
      * classe Celula
      */
     public class Celula {
+
+        private int tag = -1;
         private boolean IsEmpty;
         private boolean IsDirty;
+
+        /**
+         *
+         * @return retorna a tag
+         */
+        public int getTag() {
+            return tag;
+        }
+
+        /**
+         *
+         * @param tag
+         */
+        public void setTag(int tag) {
+            this.tag = tag;
+        }
         
         /**
          * 
@@ -88,10 +105,10 @@ public class Bloco {
     
     /**
      * 
-     * @param currentUsage 
+     * @param amount
      */
-    public void setCurrentUsage(int currentUsage) {
-        this.currentUsage = currentUsage;
+    public void setCurrentUsage(int amount) {
+        this.currentUsage = this.currentUsage + amount;
     }
     
     /**
@@ -147,22 +164,6 @@ public class Bloco {
     
     /**
      * 
-     * @return retorna a tag
-     */
-    public int getTag() {
-        return tag;
-    }
-    
-    /**
-     * 
-     * @param tag
-     */
-    public void setTag(int tag) {
-        this.tag = tag;
-    }
-    
-    /**
-     * 
      * @return retorna o indice
      */
     public int getIndice() {
@@ -200,6 +201,9 @@ public class Bloco {
      */
     public Bloco(int indice, int offset) {
         setIndice(indice);
+        if(offset == 0){
+            offset = 1;
+        }
         setCapacity((int) Math.pow(offset, 2));
         setCelulas(new Celula[getCapacity()]);
     }
@@ -207,29 +211,32 @@ public class Bloco {
     /**
      * 
      * @param offset
-     * @return valores 
+     * @param tag
+     * @return valores
      * Erro -> -1
      * Ha espaco -> 0
      * Miss de Conflito -> 1
      * Miss de capacidade -> 2
      */
-    public int access(int offset) {
+    public int access(int offset, int tag) {
         if (getCelulas() == null) {
             return -1;
         } else {
-            if (getCurrentUsage() == getCapacity()) {
+            if (getCurrentUsage() >= getCapacity()) {
                 return 2;
             } else {
                 if(getCurrentUsage() == 0){
                     setFirstElement(offset);
                 }
                 if (getCelulas()[offset].isEmpty()) {
-                    setCurrentUsage(getCurrentUsage() + 1);
+                    setCurrentUsage(1);
                     getCelulas()[offset].setEmpty(false);
+                    getCelulas()[offset].setTag(tag);
                     setLastUsed(offset);
                     return 0;
                 } else {
                     getCelulas()[offset].setDirty(true);
+                    getCelulas()[offset].setTag(tag);
                     setLastUsed(offset);
                     return 1;
                 }

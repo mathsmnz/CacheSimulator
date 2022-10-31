@@ -119,6 +119,18 @@ public class RuntimeData {
         int totalHits = getAddressCount() - totalMisses;
         float hitRate = (float) totalHits / (float) getAddressCount();
         float missRate = 1 - hitRate;
+        if(RuntimeData.getOutputFlag() == 0){
+            System.out.printf("""
+                            [CACHE]|==> Resultados do benchmark
+                            [Total Access]|==> %d
+                            [Total Hits]|==> %d
+                            [Total Misses]|==> %d
+                            [Compulsory Misses]|==> %d
+                            [Capacity Misses]|==> %d
+                            [Conflict Misses]|==> %d
+                            """,
+                    getAddressCount(), totalHits, totalMisses, getMissCompulsorio(), getMissCapacidade(), getMissConflito());
+        }
         return String.format("%d %.2f %.2f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
 
     }

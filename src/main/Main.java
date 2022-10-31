@@ -5,9 +5,9 @@ import main.util.CliParser;
 import main.util.FileManager;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import static main.util.RuntimeData.*;
+import static main.util.Util.addressToBinary;
 import static main.util.Util.printHelp;
 
 public class Main extends FileManager {
@@ -22,9 +22,14 @@ public class Main extends FileManager {
                     ArrayList<Integer> enderecos = fileReader(parser.getPath());
                     if (enderecos != null) {
                         setAddressCount(enderecos.size());
+                        int currentPos = 0;
                         for (int endereco : enderecos) {
-                            if (getOutputFlag() == 0) {
+                            if (getLinesFilled() != getAddressCount()) {
                                 cache.find(endereco);
+                                currentPos++;
+                            } else {
+                                setMissCapacidade(getAddressCount() - currentPos);
+                                break;
                             }
                         }
                         System.out.println(getOutputlog());
@@ -32,14 +37,27 @@ public class Main extends FileManager {
                 }
             }
         } else {
-            ArrayList<Integer> enderecos = fileReader(args[5]);
-            HashSet<Integer> possibleReads = new HashSet<>(enderecos);
-            int enderecoLido = 13;
-            if (possibleReads.add(enderecoLido)) {
-                //Do stuff
-            } else {
-                //Erro a decidir
+
+            int address = 2575;
+            int[] retVal = new int[4];
+            String[] vals = new String[4];
+
+            int offset = 2;
+            int tag = 22;
+            int indice = 8;
+
+            String convertedAddress = addressToBinary(address);
+
+            vals[0] = convertedAddress;
+            vals[1] = convertedAddress.substring(0, 32 - (offset + indice));
+            vals[2] = convertedAddress.substring(32 - offset, 32);
+            vals[3] = convertedAddress.substring(tag, 32 - offset);
+
+            for (String s : vals) {
+                System.out.println(s + " " + s.length());
             }
+
+            System.out.println();
         }
     }
 }

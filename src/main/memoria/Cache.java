@@ -3,8 +3,7 @@ package main.memoria;
 import java.util.ArrayList;
 
 import static main.util.RuntimeData.*;
-import static main.util.Util.getRandom;
-import static main.util.Util.log2;
+import static main.util.Util.*;
 
 /**
  * Classe Cache
@@ -55,10 +54,15 @@ public class Cache {
      */
     private int[] decode(int address) {
         int[] retVal = new int[4];
+        String convertedAddress = addressToBinary(address);
         retVal[0] = address; // address
-        retVal[1] = address >> (this.offset + this.indice); // tag
-        retVal[2] = address << (this.tag + this.indice) >>> (this.tag + this.indice); // offset
-        retVal[3] = ((address >> this.getOffset()) & (2 ^ this.getIndice() - 1)); // indice
+        retVal[1] = Integer.parseInt(convertedAddress.substring(0, 32 - (getOffset() + getIndice())), 2); // tag
+        if(getOffset() > 0){
+            retVal[2] = Integer.parseInt(convertedAddress.substring(32 - getOffset(), 32), 2);
+        }else{
+            retVal[2] = 0;
+        } // offset
+        retVal[3] = Integer.parseInt(convertedAddress.substring(getTag(), 32 - getOffset()), 2); // indice
         return retVal;
     }
 
@@ -69,6 +73,7 @@ public class Cache {
      */
     private boolean read(int endereco) {
         int[] args = decode(endereco);
+
         Bloco bloco = blocos.get(args[3]);
         if(bloco.getEndereco() == -1){
             bloco.setEndereco(endereco);
@@ -78,8 +83,17 @@ public class Cache {
         if(getAssoc() > 1){
             pos = args[2];
         }
-
-        return !bloco.getCelulas()[pos].isEmpty();
+        if(bloco.getCelulas().length <= pos ){
+            pos = 0;
+        }
+        if(bloco.getCelulas().length == 0){
+            System.out.println("this probably shouldn't happen");
+        }
+        if(bloco.getCelulas()[pos].getTag() == args[1]){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -93,44 +107,42 @@ public class Cache {
      */
     private int write(int endereco) {
         if (getBlocos() != null) {
-            for (Bloco bloco : getBlocos()) {
-                int pos = 0;
-                if (getAssoc() > 1) {
-                    int off = decode(endereco)[2];
-                    switch (getSub()) {
-                        case 1 -> pos = getRandom(off);
-                        case 2 -> pos = bloco.getFirstElement();
-                        case 3 -> pos = bloco.getLastUsed();
-                        default -> {
-                            if (getOutputFlag() == 0) {
-                                System.out.println("[CACHE]|==>Erro ao escolher modo de substiuição");
-                            }
+            int pos = 0;
+            int[] args = decode(endereco);
+            Bloco bloco = blocos.get(args[3]);
+            if (getAssoc() > 1) {
+                int off = args[2];
+                switch (getSub()) {
+                    case 1 -> pos = getRandom(off);
+                    case 2 -> pos = bloco.getFirstElement();
+                    case 3 -> pos = bloco.getLastUsed();
+                    default -> {
+                        if (getOutputFlag() == 0) {
+                            System.out.println("[CACHE]|==>Erro ao escolher modo de substiuição");
                         }
                     }
-                }
-                if (bloco.getEndereco() == endereco) {
-                    int output = bloco.access(pos);
-
-                    switch (output) {
-                        case 0 -> setMissCompulsorio(1);
-                        case 1 -> setMissConflito(1);
-                        case 2 -> {
-                            setMissCapacidade(1);
-                            setLinesFilled(1);
-                        }
-                    }
-
-                    if (getOutputFlag() == 0) {
-                        switch (output) {
-                            case 1 -> System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
-                            case 0 -> System.out.printf("[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
-                            case 2 -> System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
-                        }
-                    }
-
-                    return output;
                 }
             }
+            int output = bloco.access(pos, args[1]);
+
+            switch (output) {
+                case 0 -> setMissCompulsorio(1);
+                case 1 -> setMissConflito(1);
+                case 2 -> {
+                    setMissCapacidade(1);
+                    setLinesFilled(1);
+                }
+            }
+
+            if (getOutputFlag() == 0) {
+                switch (output) {
+                    case 1 -> System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
+                    case 0 -> System.out.printf("[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
+                    case 2 -> System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
+                }
+            }
+
+            return output;
         }
         return -1;
     }

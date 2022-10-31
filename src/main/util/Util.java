@@ -9,32 +9,49 @@ public class Util {
 
     /**
      * Método de conversão
+     *
      * @param input numero para converter para base 2
      * @return base 2
      */
-    public static int log2(int input){
-        return (int)(Math.log(input) / Math.log(2));
+    public static int log2(int input) {
+        if (input > 0) {
+            return (int) (Math.log(input) / Math.log(2));
+        } else {
+            return 1;
+        }
     }
 
     /**
      * Método random
+     *
      * @param upper numero máximo de random
      * @return numero aleatorio
      */
     public static int getRandom(int upper) {
-        Random r =  new Random();
-        return r.nextInt(upper);
+        if (upper > 0) {
+            Random r = new Random();
+            return r.nextInt(upper);
+        } else {
+            return 0;
+        }
     }
 
     /**
      * Método auxiliar
      */
-    public static void printHelp(){
+    public static void printHelp() {
         System.out.println("TO DO");
     }
 
     /**
-     *
+     * Método para converter um endereco em uma string de 32
+     */
+    public static String addressToBinary(int address) {
+        String s = Integer.toBinaryString(address);
+        return "00000000000000000000000000000000".substring(s.length()) + s;
+    }
+
+    /**
      * @param input
      * @return
      */
