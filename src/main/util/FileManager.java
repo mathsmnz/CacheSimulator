@@ -13,8 +13,8 @@ public class FileManager {
 
     /**
      * Responsável por criar o arquivo caso necessário
-     * @param path 
-     * @return
+     * @param path caminho do arquivo
+     * @return retorna false se houver erro na execucão
      */
     protected static boolean fileCreator(String path) {
         try {
