@@ -1,7 +1,7 @@
 Raíssa Nunes Coelho - 15102887
 Matheus S. Menezes - 19100956
 
-Para funcionamento adequado do programa, se recomenda a versão 18.0.2 do Java
+Para que o programa funcione corretamente, se recomenda a versão 18.0.2 do Java
 
 Possui mais de uma política de substituição.
 
