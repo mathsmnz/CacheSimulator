@@ -7,6 +7,7 @@ import static main.util.Util.*;
 
 /**
  * Classe Cache
+ * classe principal da memória cache
  */
 public class Cache {
 
@@ -20,10 +21,13 @@ public class Cache {
     
     /**
      * 
-     * @param nset
-     * @param bsize
-     * @param assoc
-     * @param sub
+     * @param nset numero de conjunto
+     * @param bsize tamanho do bloco
+     * @param assoc associatividade
+     * @param sub politica de substituicão conforme os números abaixo:
+     *  1 -> RANDOM
+     *  2 -> FIFO
+     *  3 -> LRU
      */
     public Cache(int nset, int bsize, int assoc, int sub) {
         this.setOffset(log2(bsize));
@@ -37,9 +41,10 @@ public class Cache {
     }
     
     /**
-     * 
-     * @param assoc
-     * @param nset
+     * Método initBlocos
+     * inicia os blocos
+     * @param assoc associatividade
+     * @param nset conjuntos
      */
     private void initBlocos(int assoc, int nset){
         for(int i = 0; i < assoc * nset; i++){
@@ -234,7 +239,10 @@ public class Cache {
     
      /**
      * 
-     * @param sub
+     * @param sub recebe o valor da politica de substituicão conforme:
+     *   1 -> RANDOM
+     *   2 -> FIFO
+     *   3 -> LRU
      */
     public void setSub(int sub) {
         this.sub = sub;
@@ -250,7 +258,7 @@ public class Cache {
     
     /**
      * 
-     * @param blocos
+     * @param blocos recebe os blocos da classe Bloco
      */
     public void setBlocos(ArrayList<Bloco> blocos) {
         this.blocos = blocos;
