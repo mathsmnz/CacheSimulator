@@ -11,39 +11,35 @@ import static main.util.Util.isInteger;
 /**
  * Classe CliParser
  * <nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
- *                        <0-LRU 1-RANDOM 2-FIFO>
+ * <0-LRU 1-RANDOM 2-FIFO>
  */
 public class CliParser {
     private final String[] args;
     private final int[] cacheConfig = new int[5];
     private String path;
-    
+
     /**
-     * 
      * @return o caminho
      */
     public String getPath() {
         return path;
     }
-    
-   /**
-     * 
+
+    /**
      * @param args a serem definidos
-     */ 
-    public CliParser(String[] args){
+     */
+    public CliParser(String[] args) {
         this.args = args;
     }
-    
+
     /**
-     * 
      * @return uma nova cache com as configurações dadas
      */
     public Cache generateCache() {
         return new Cache(cacheConfig[0], cacheConfig[1], cacheConfig[2], cacheConfig[3]);
     }
-    
+
     /**
-     * 
      * @return modo de operação do programa
      */
     public int parse() {
@@ -68,7 +64,11 @@ public class CliParser {
                     cacheConfig[2] = Integer.parseInt(args[2]); // assoc
 //                  cacheConfig[3] = args[3]                    // substituicao
                     cacheConfig[4] = Integer.parseInt(args[4]); // flag
-                    if(cacheConfig[4] == 0){
+                    if (cacheConfig[4] == 0) {
+                        setOutputFlag(0);
+                        setDebugMode(1);
+                    } else if(cacheConfig[4] == 2){
+                        RuntimeData.setUpLogging(new LogHandler(args));
                         setOutputFlag(0);
                         setDebugMode(1);
                     }else{
@@ -94,7 +94,7 @@ public class CliParser {
                     String arquivoEntrada = args[5];
                     this.path = arquivoEntrada;
 
-                    if(getOutputFlag() == 0){
+                    if (getOutputFlag() == 0) {
                         System.out.println("[ARGS]|==>Os argumentos inseridos foram:");
                         System.out.printf("[ARGS]|==>nsets = %d\n", nsets);
                         System.out.printf("[ARGS]|==>bsize = %d\n", bsize);

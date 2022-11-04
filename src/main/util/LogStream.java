@@ -6,11 +6,12 @@ import java.io.PrintStream;
 
 /**
  * Uma classe que permite imprimir um dado objeto tanto para o terminal
- * quanto para um arquivo dado
- * https://stackoverflow.com/a/65536759/12520896
+ * quanto para um arquivo dado, derivada de DualStream:
+ * <a href="https://stackoverflow.com/a/65536759/12520896">Código original</a>
  */
 
 public class LogStream extends PrintStream {
+    private PrintStream logOutput = null;
     private PrintStream consoleOutput = null;
 
     public LogStream(final PrintStream consoleOutput, final PrintStream logOutput) throws FileNotFoundException {

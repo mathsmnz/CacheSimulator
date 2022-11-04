@@ -16,7 +16,7 @@ public class FileManager {
      * @param path caminho do arquivo
      * @return retorna false se houver erro na execucão
      */
-    protected static boolean fileCreator(String path) {
+    public static boolean fileCreator(String path) {
         try {
             File arquivo = new File(path);
             if (arquivo.createNewFile()) {

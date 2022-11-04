@@ -13,6 +13,7 @@ public class RuntimeData {
     private static int missCompulsorio = 0;
     private static int missConflito = 0;
     private static int missCapacidade = 0;
+    private static LogHandler log;
     
     /**
      * 
@@ -52,6 +53,10 @@ public class RuntimeData {
      */
     public static void setMissConflito(int amount) {
         missConflito = missConflito + amount;
+    }
+
+    public static void setUpLogging(LogHandler logHandler){
+        RuntimeData.log = logHandler;
     }
     
     /**
