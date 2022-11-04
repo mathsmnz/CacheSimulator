@@ -21,3 +21,4 @@ nbdist/
 .nb-gradle/
 # Ignore all project test files
 *.bin
+*.txt
