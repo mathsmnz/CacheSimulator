@@ -1,11 +1,25 @@
 package main.util;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 
 /**
- * Classe Util
+ * Classe Util é uma classe que contém métodos utilitários
  */
 public class Util {
+
+    /**
+     * Método responsável por gerar o nome do arquivo de log
+     * com base nos parametros do benchmark e timestamp da execucao
+     * @param args uma array de string com os argumentos
+     * @return String com o nome de arquivo
+     **/
+    public static String generateTimestampedFileName(String[] args) {
+        String inputArgs = "-" + args[0] + "-" + args[1] + "-" + args[2] + "-" + args[3] + ".txt";
+        String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Timestamp(System.currentTimeMillis()));
+        return date + inputArgs;
+    }
 
     /**
      * Método responsável por calcular o log2

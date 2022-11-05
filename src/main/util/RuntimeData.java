@@ -1,8 +1,7 @@
 package main.util;
 
 /**
- * Classe RuntimeData
- * classe contem métodos necessários para a contagem de hits e misses
+ * Classe contem métodos necessários para a contagem de hits e misses
  * também retorna uma string de output com o formato flag_saida escolhido
  */
 public class RuntimeData {
@@ -102,7 +101,7 @@ public class RuntimeData {
     }
     
    /**
-     * Método getOutputlog
+     * Método getOutputlog é o método que retorna uma String com os resultados do benchmark
      * totalMisses = soma de todos os misses(Compulsorio + Capacidade + Conflito)
      * if de total misses -> em caso de misses derem zero. Para não dar erro na hitrate
      * compulsoryMissRate -> ratio de miss compulsorio  

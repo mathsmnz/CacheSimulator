@@ -9,7 +9,7 @@ import static main.util.RuntimeData.*;
 import static main.util.Util.isInteger;
 
 /**
- * Classe CliParser
+ * Classe CliParser é a classe que lida com a entrada de argumentos por CLI
  * <nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
  * <0-LRU 1-RANDOM 2-FIFO>
  */

@@ -6,8 +6,8 @@ import static main.util.RuntimeData.*;
 import static main.util.Util.*;
 
 /**
- * Classe Cache
- * classe principal da memória cache
+ * Classe principal da memória cache, contém os parametros
+ * da cache e os conjuntos da cache
  */
 public class Cache {
 
