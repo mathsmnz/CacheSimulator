@@ -34,9 +34,9 @@ public class Cache {
         this.setTag(32 - getOffset() - getIndice());
         this.setAssoc(assoc);
         this.setSub(sub);
-        this.capacidade = assoc * nset;
+        this.capacidade = assoc;
         setConjuntos(new ArrayList<>(nset));
-        initConjuntos(assoc, nset);
+        initConjuntos(assoc, nset, bsize);
 
         if(getOutputFlag() == 0){
             System.out.printf("[CACHE]|==> n_offset: %d\n", getOffset());
@@ -57,7 +57,7 @@ public class Cache {
      * @param assoc associatividade
      * @param nset  conjuntos
      */
-    private void initConjuntos(int assoc, int nset) {
+    private void initConjuntos(int assoc, int nset, int bsize) {
         for (int i = 0; i < nset; i++) {
             conjuntos.add(i, new Conjunto(-1, assoc));
         }
@@ -136,7 +136,7 @@ public class Cache {
                 int off = args[2];
 
                 switch (getSub()) {
-                    case 1 -> pos = getRandom(conjunto.getCapacity() - 1);
+                    case 1 -> pos = getRandom(capacidade - 1);
                     case 2 -> pos = conjunto.getFirstElement();
                     case 3 -> pos = conjunto.getLastUsed();
                     default -> {

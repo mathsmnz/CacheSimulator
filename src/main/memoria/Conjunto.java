@@ -10,6 +10,7 @@ public class Conjunto {
     private int indice = -1;
     private int lastUsed;
     private int capacity;
+    private boolean isFull = false;
     private int currentUsage;
     private int firstElement;
     private Via[] vias;
@@ -118,7 +119,6 @@ public class Conjunto {
     }
 
 
-
     /**
      * @return retorna o indice
      */
@@ -153,12 +153,7 @@ public class Conjunto {
      */
     public Conjunto(int indice, int offset) {
         setIndice(indice);
-        if (offset == 0) {
-            offset = 1;
-        } else if (offset == 1) {
-            offset = 2;
-        }
-        setCapacity((int) Math.pow(offset, 2));
+        setCapacity(offset);
         setVias(new Via[getCapacity()]);
     }
 
@@ -176,37 +171,71 @@ public class Conjunto {
             return -1;
         } else {
             if (getCurrentUsage() >= getCapacity()) {
-                if(getOutputFlag() == 0){
+                if (getOutputFlag() == 0) {
                     System.out.printf("\n[CACHE]||==> [%d] Completamente preenchido\n", getIndice());
                 }
-                setLinesFilled(1);
-                return 2;
-            } else {
-                if (getCurrentUsage() == 0) {
-                    setFirstElement(offset);
-                }
-                if (getOutputFlag() == 0) {
-                    System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
-                    int temp = getVias()[offset].getTag();
-                    if(temp == -1){
-                        System.out.printf("[CACHE]||==> Inicializando com tag => [%d]\n", tag);
-                    }else{
-                        System.out.printf("[CACHE]||==> [%d] => [%d]\n", temp, tag);
-                    }
-                }
-                getVias()[offset].setTag(tag);
-
-                if (getVias()[offset].isEmpty()) {
-                    setCurrentUsage(1);
-                    getVias()[offset].setEmpty(false);
-                    if(getOutputFlag() == 0){
-                        System.out.printf("[CACHE]||==> [%d] - Espaco restante => [%d]\n", getIndice(), capacity - getCurrentUsage());
-                    }
-                    return 0;
-                } else {
-                    return 1;
+                if(!isFull){
+                    setLinesFilled(1);
+                    isFull = true;
                 }
             }
+            if (getCurrentUsage() == 0) {
+                setFirstElement(offset);
+            }
+            if (getOutputFlag() == 0) {
+                System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
+                int temp = getVias()[offset].getTag();
+                if (temp == -1) {
+                    System.out.printf("[CACHE]||==> Inicializando com tag => [%d]\n", tag);
+                } else {
+                    System.out.printf("[CACHE]||==> [%d] => [%d]\n", temp, tag);
+                }
+            }
+            getVias()[offset].setTag(tag);
+
+            if (getVias()[offset].isEmpty()) {
+                setCurrentUsage(1);
+                getVias()[offset].setEmpty(false);
+                if (getOutputFlag() == 0) {
+                    System.out.printf("[CACHE]||==> [%d] - Espaco restante => [%d]\n", getIndice(), capacity - getCurrentUsage());
+                }
+                return 0;
+            } else {
+                return 1;
+            }
+
+//            if (getCurrentUsage() >= getCapacity()) {
+//                if(getOutputFlag() == 0){
+//                    System.out.printf("\n[CACHE]||==> [%d] Completamente preenchido\n", getIndice());
+//                }
+//                setLinesFilled(1);
+//                return 1;
+//            } else {
+//                if (getCurrentUsage() == 0) {
+//                    setFirstElement(offset);
+//                }
+//                if (getOutputFlag() == 0) {
+//                    System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
+//                    int temp = getVias()[offset].getTag();
+//                    if(temp == -1){
+//                        System.out.printf("[CACHE]||==> Inicializando com tag => [%d]\n", tag);
+//                    }else{
+//                        System.out.printf("[CACHE]||==> [%d] => [%d]\n", temp, tag);
+//                    }
+//                }
+//                getVias()[offset].setTag(tag);
+//
+//                if (getVias()[offset].isEmpty()) {
+//                    setCurrentUsage(1);
+//                    getVias()[offset].setEmpty(false);
+//                    if(getOutputFlag() == 0){
+//                        System.out.printf("[CACHE]||==> [%d] - Espaco restante => [%d]\n", getIndice(), capacity - getCurrentUsage());
+//                    }
+//                    return 0;
+//                } else {
+//                    return 1;
+//                }
+//            }
         }
     }
 
