@@ -1,8 +1,8 @@
 package main.util;
 
 /**
- * Classe contem métodos necessários para a contagem de hits e misses
- * também retorna uma string de output com o formato flag_saida escolhido
+ * Classe contem métodos necessários para a contagem de acertos e misses
+ * também retorna uma ‘string’ de resultado com o formato flag_saida escolhido
  */
 public class RuntimeData {
     private static int outputFlag = 1;
@@ -29,7 +29,7 @@ public class RuntimeData {
     }
 
     /**
-     * @param amount conta o número de misses compulsorios
+     * @param amount conta o número de misses compulsórios
      */
     public static void setMissCompulsorio(int amount) {
         missCompulsorio = missCompulsorio + amount;
@@ -54,21 +54,21 @@ public class RuntimeData {
     }
 
     /**
-     * @return retorna o numero de misses compulsorios
+     * @return retorna o número de misses compulsórios
      */
     public static int getMissCompulsorio() {
         return missCompulsorio;
     }
 
     /**
-     * @return retorna o numero de misses de conflito
+     * @return retorna o número de misses de conflito
      */
     public static int getMissConflito() {
         return missConflito;
     }
 
     /**
-     * @return retorna o numero de misses de capacidade
+     * @return retorna o número de misses de capacidade
      */
     public static int getMissCapacidade() {
         return missCapacidade;
@@ -91,19 +91,19 @@ public class RuntimeData {
     }
 
     /**
-     * Método getOutputlog é o método que retorna uma String com os resultados do benchmark
-     * totalMisses = soma de todos os misses(Compulsorio + Capacidade + Conflito)
-     * if de total misses -> em caso de misses derem zero. Para não dar erro na hitrate
-     * compulsoryMissRate -> ratio de miss compulsorio
-     * capacityMissRate -> ratio de miss capacidade
-     * conflictMissRate -> ratio de miss conflito
-     * totalHits -> hits totais
-     * hitRate -> ratio de hits totais
-     * missRate -> ratio de misses totais
+     * Método getOutputLog é o método que retorna uma String com os resultados do benchmark
+     * totalMisses = soma de todos os misses (Compulsório + Capacidade + Conflito) <br>
+     * if de totalMisses → em caso de misses derem zero. Para não dar erro na hitrate <br>
+     * compulsoryMissRate → ratio de miss compulsório <br>
+     * capacityMissRate → ratio de miss capacidade <br>
+     * conflictMissRate → ratio de miss conflito <br>
+     * totalHits → hits totais <br>
+     * hitRate → ratio de hits totais <br>
+     * missRate → ratio de misses totais <br>
      *
      * @return string final com o formato escolhido
      */
-    public static String getOutputlog() {
+    public static String getOutputLog() {
         int totalMisses = getMissCapacidade() + getMissCompulsorio() + getMissConflito();
         int temp = 0;
         if (totalMisses == 0) {
@@ -146,7 +146,7 @@ public class RuntimeData {
     }
 
     /**
-     * @param outputFlag variavel que determina o formato da saida
+     * @param outputFlag variável que determina o formato da saida
      */
     public static void setOutputFlag(int outputFlag) {
         RuntimeData.outputFlag = outputFlag;

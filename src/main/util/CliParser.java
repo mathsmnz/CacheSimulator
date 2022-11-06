@@ -10,10 +10,11 @@ import static main.util.Util.isInteger;
 
 /**
  * Classe CliParser é a classe que lida com a entrada de argumentos por CLI
- * <nsets> <bsize> <assoc> <    substituição     > <flag_saida> <file_name>
- * <0-LRU 1-RANDOM 2-FIFO>
  */
 public class CliParser {
+    /**
+     * < nsets > < bsize > < assoc > < substituição > < flag_saida > < file_name >
+     */
     private final String[] args;
     private final int[] cacheConfig = new int[5];
     private String path;
@@ -46,7 +47,6 @@ public class CliParser {
         int argLength = args.length;
         switch (argLength) {
             default -> {
-                //System.out.println(args.length);
                 if (getOutputFlag() == 0) {
                     System.out.println("[ARGS]|==>Numero de argumentos incorreto. Utilize:");
                     System.out.println("[ARGS]|==>java cache_simulator <nsets> <bsize> <assoc> <substituição> <flag_saida> arquivo_de_entrada");

@@ -6,8 +6,8 @@ import static main.util.RuntimeData.*;
 import static main.util.Util.*;
 
 /**
- * Classe principal da memória cache, contém os parametros
- * da cache e os conjuntos da cache
+ * Classe principal da memória cache, contém os parâmetros
+ * da (cache) e os conjuntos dela
  */
 public class Cache {
 
@@ -22,10 +22,10 @@ public class Cache {
      * @param nset  numero de conjunto
      * @param bsize tamanho do Via
      * @param assoc associatividade
-     * @param sub   politica de substituicão conforme os números abaixo:
-     *              1 -> RANDOM
-     *              2 -> FIFO
-     *              3 -> LRU
+     * @param sub   politica de substituição conforme os números abaixo:
+     *              1 → RANDOM <br>
+     *              2 → FIFO <br>
+     *              3 → LRU <br>
      */
     public Cache(int nset, int bsize, int assoc, int sub) {
         this.setOffset(log2(bsize));
@@ -66,8 +66,12 @@ public class Cache {
      * Método responsável por ao receber um endereço, o decodificar
      * retornando argumentos a serem operados
      *
-     * @param address a ser decodicado
-     * @return int[] com os argumentos decodificados, 0 - addres, 1 - tag, 2 - offset, 3 - indice
+     * @param address a ser decodificado
+     * @return int[] com os argumentos decodificados:
+     *            0 → address <br>
+     *            1 → tag <br>
+     *            2 → offset <br>
+     *            3 → índice <br>
      */
     private int[] decode(int address) {
         int[] retVal = new int[4];
@@ -89,9 +93,9 @@ public class Cache {
 
     /**
      * Método para a leitura em cache
-     * Possiveis retornos
-     * true - hit
-     * false - miss
+     * Possiveis retornos:
+     * true → hit,
+     * false → miss
      *
      * @param endereco recebe endereco
      * @return retorna falso caso já tenha algo na cache

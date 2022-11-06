@@ -21,7 +21,7 @@ public class LogHandler {
     }
 
     /**
-     * Método responsável por configurar a Printstream do log
+     * Método responsável por configurar a PrintStream do log
      **/
     private void log() {
         try {

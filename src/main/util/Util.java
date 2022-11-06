@@ -37,7 +37,7 @@ public class Util {
     /**
      * Método responsável por gerar um número pseudo aleatório
      * @param upper numero máximo de random
-     * @return numero aleatorio
+     * @return numero aleatório
      */
     public static int getRandom(int upper) {
         if (upper > 0) {
@@ -56,9 +56,9 @@ public class Util {
     }
 
     /**
-     * Método para converter um endereco em uma string de 32
-     * @param address recebe endereco
-     * @return retorna uma string do endereco em 32b
+     * Método para converter um endereço em uma ‘string’ de 32
+     * @param address recebe endereço
+     * @return retorna uma ‘string’ do endereço em 32b
      */
     public static String addressToBinary(int address) {
         String s = Integer.toBinaryString(address);
@@ -66,13 +66,13 @@ public class Util {
     }
 
     /**
-     * Método responsável por verificar se uma string pode ser convertida
+     * Método responsável por verificar se uma ‘string’ pode ser convertida
      * para int
      * @param input String a ser verificada
-     * @return false se não for possível converter
-     * @return true se for possível converter
+     * @return possíveis retornos: <br>
+     *                              <em>false</em> → se não for possível converter
+     *                              <em>true</em> → se for possível converter
      */
-    @SuppressWarnings("JavaDoc")
     public static Boolean isInteger(String input) {
         if (input == null) {
             return false;

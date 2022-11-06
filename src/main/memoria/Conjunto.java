@@ -17,7 +17,7 @@ public class Conjunto {
     private Via[] vias;
 
     /**
-     * classe Celula
+     * classe Via
      */
     public static class Via {
 
@@ -39,21 +39,21 @@ public class Conjunto {
         }
 
         /**
-         * @return se a celula está vazia
+         * @return se a via está vazia
          */
         public boolean isEmpty() {
             return IsEmpty;
         }
 
         /**
-         * @param empty muda o estado boolean da célula
+         * @param empty muda o estado boolean da via
          */
         public void setEmpty(boolean empty) {
             IsEmpty = empty;
         }
 
         /**
-         * Construtor Celula
+         * Construtor Via
          */
         public Via() {
             this.IsEmpty = true;
@@ -121,7 +121,7 @@ public class Conjunto {
 
 
     /**
-     * @return retorna o indice
+     * @return retorna o índice
      */
     public int getIndice() {
         return indice;
@@ -150,7 +150,7 @@ public class Conjunto {
 
     /**
      * @param indice deste conjunto
-     * @param offset numero de posicoes deste conjunto
+     * @param offset numero de posições deste conjunto
      */
     public Conjunto(int indice, int offset) {
         setIndice(indice);
@@ -161,11 +161,10 @@ public class Conjunto {
     /**
      * @param offset posição a ser acessada
      * @param tag    a ser escrita
-     * @return valores
-     * Erro -> -1
-     * Ha espaco -> 0
-     * Miss de Conflito -> 1
-     * Miss de capacidade -> 2
+     * @return valores:
+     * Erro → -1 <br>
+     * Ha espaço → 0 <br>
+     * Miss de Conflito → 1 <br>
      */
     public int access(int offset, int tag) {
         if (getVias() == null) {

@@ -25,7 +25,7 @@ public class Main extends FileManager {
                         for (int endereco : enderecos) {
                             cache.find(endereco);
                         }
-                        System.out.println(getOutputlog());
+                        System.out.println(getOutputLog());
                     }
                 }
             }
