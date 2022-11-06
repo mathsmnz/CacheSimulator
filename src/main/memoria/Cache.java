@@ -6,8 +6,8 @@ import static main.util.RuntimeData.*;
 import static main.util.Util.*;
 
 /**
- * Classe Cache
- * classe principal da memória cache
+ * Classe principal da memória cache, contém os parametros
+ * da cache e os conjuntos da cache
  */
 public class Cache {
 
@@ -35,8 +35,8 @@ public class Cache {
         this.setAssoc(assoc);
         this.setSub(sub);
         this.capacidade = assoc * nset;
-        setVias(new ArrayList<>(capacidade));
-        initVias(assoc, nset);
+        setConjuntos(new ArrayList<>(nset));
+        initConjuntos(assoc, nset);
 
         if(getOutputFlag() == 0){
             System.out.printf("[CACHE]|==> n_offset: %d\n", getOffset());
@@ -51,15 +51,15 @@ public class Cache {
     }
 
     /**
-     * Método initVias
-     * inicia os Vias
+     * Método initConjuntos
+     * inicia os Conjuntos
      *
      * @param assoc associatividade
      * @param nset  conjuntos
      */
-    private void initVias(int assoc, int nset) {
-        for (int i = 0; i < assoc * nset; i++) {
-            conjuntos.add(i, new Conjunto(getIndice(), getOffset()));
+    private void initConjuntos(int assoc, int nset) {
+        for (int i = 0; i < nset; i++) {
+            conjuntos.add(i, new Conjunto(-1, assoc));
         }
     }
 
@@ -68,7 +68,7 @@ public class Cache {
      * retornando argumentos a serem operados
      *
      * @param address a ser decodicado
-     * @return int[] com os argumentos decodificados
+     * @return int[] com os argumentos decodificados, 0 - addres, 1 - tag, 2 - offset, 3 - indice
      */
     private int[] decode(int address) {
         int[] retVal = new int[4];
@@ -76,11 +76,15 @@ public class Cache {
         retVal[0] = address; // address
         retVal[1] = Integer.parseInt(convertedAddress.substring(0, 32 - (getOffset() + getIndice())), 2); // tag
         if (getOffset() > 0) {
-            retVal[2] = Integer.parseInt(convertedAddress.substring(32 - getOffset(), 32), 2);
+            retVal[2] = Integer.parseInt(convertedAddress.substring(32 - getOffset(), 32), 2); // offset
         } else {
             retVal[2] = 0;
         } // offset
-        retVal[3] = Integer.parseInt(convertedAddress.substring(getTag(), 32 - getOffset()), 2); // indice
+        if(getIndice() > 0){
+            retVal[3] = Integer.parseInt(convertedAddress.substring(getTag(), 32 - getOffset()), 2); // indice
+        }else{
+            retVal[3] = 0;
+        } // indice
         return retVal;
     }
 
@@ -97,23 +101,28 @@ public class Cache {
         int[] args = decode(endereco);
 
         Conjunto conjunto = conjuntos.get(args[3]);
-        if (conjunto.getEndereco() == -1) {
-            conjunto.setEndereco(endereco);
+        if (conjunto.getIndice() == -1) {
+            conjunto.setIndice(args[3]);
         }
 
-        int pos = 0;
-        if (getAssoc() > 1) {
-            pos = args[2];
-        }
-        if (conjunto.getVias().length <= pos) {
-            pos = 0;
-        }
 
-        return conjunto.getVias()[pos].getTag() == args[1];
+        for(int i = 0; i < conjunto.getVias().length; i++){
+            if(conjunto.getVias()[i].getTag() == args[1]){
+                if(getOutputFlag() == 0){
+                    System.out.printf("\n[CACHE]||==> Tag [%d] encontrada, offset [%d]\n", args[1], i);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Método de para escrita em cache
+     * Método para escrita em cache
+     * Switch(getSub()) =
+     * 1 - RANDOM
+     * 2 - FIFO
+     * 3 - LRU
      * Possiveis retornos
      * 0 - Escrita com erro compulsorio
      * 1 - Escrita com erro de conflito
@@ -125,14 +134,27 @@ public class Cache {
     private int write(int endereco) {
         if (getVias() != null) {
             int pos = 0;
+            int pos_aux = 0;
             int[] args = decode(endereco);
             Conjunto conjunto = conjuntos.get(args[3]);
             if (getAssoc() > 1) {
                 int off = args[2];
 
                 switch (getSub()) {
-                    case 1 -> pos = getRandom(conjunto.getCapacity()/this.assoc);
-                    case 2 -> pos = conjunto.getFirstElement();
+                    case 1 -> pos = getRandom(getAssoc() - 1);
+                    //case 2 -> pos = conjunto.getFirstElement();
+                    case 2 -> {
+                        if(!conjunto.getQ().isEmpty()) {
+                            pos_aux = conjunto.getQ().poll();
+                            int[] a = decode(pos_aux);
+                            pos = a[2];
+                        }else{
+                            conjunto.setQ(endereco);
+                            pos_aux = conjunto.getQ().peek();
+                            int[] a = decode(pos_aux);
+                            pos = a[2];
+                        }
+                    }
                     case 3 -> pos = conjunto.getLastUsed();
                     default -> {
                         if (getOutputFlag() == 0) {
@@ -141,23 +163,28 @@ public class Cache {
                     }
                 }
             }
-            int output = conjunto.access(pos, args[1]);
+            int output = conjunto.access(pos, args[1], endereco);
 
-            missHandler(output, endereco, pos);
+            missHandler(output, endereco);
 
             return output;
         }
         return -1;
     }
 
-    private void missHandler(int input, int endereco, int pos) {
+    /**
+     * Define a contagem de erros
+     * @param input
+     * @param endereco
+     */
+    private void missHandler(int input, int endereco) {
 
         int miss = 0;
 
         if (input != 0) {
             int event = 0;
             //Define se o miss sera de capacidade ou conflito
-            if (getLinesFilled() >= getAddressCount()) {
+            if (getLinesFilled() >= getIndice()) {
                 setMissCapacidade(1);
             } else {
                 event = 1;
@@ -166,20 +193,17 @@ public class Cache {
             if (getOutputFlag() == 0) {
                 switch (event) {
                     case 0 -> {
-                        System.out.printf("\n[CACHE]||==> [%d] - Miss capacidade\n", endereco);
-                        System.out.printf("[CACHE]||==> Substituindo elemento [%d]\n", pos);
+                        System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
                     }
                     case 1 -> {
-                        System.out.printf("\n[CACHE]||==> [%d] - Miss conflito\n", endereco);
-                        System.out.printf("[CACHE]||==> Substituindo elemento [%d]\n", pos);
+                        System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
                     }
                 }
             }
         } else {
             setMissCompulsorio(1);
             if (getOutputFlag() == 0) {
-                System.out.printf("\n[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
-                System.out.printf("[CACHE]||==> Substituindo elemento [%d]\n", pos);
+                System.out.printf("[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
             }
         }
     }
@@ -192,11 +216,15 @@ public class Cache {
     public void find(int endereco) {
         if (!read(endereco)) {
             write(endereco);
+        }else{
+            if(getOutputFlag() == 0){
+                System.out.printf("[CACHE]||==> [%d] - Hit\n", endereco);
+            }
         }
     }
 
     /**
-     * @return o valor da associatividade
+     * @return retorna o valor da associatividade
      */
     public int getAssoc() {
         return assoc;
@@ -210,7 +238,7 @@ public class Cache {
     }
 
     /**
-     * @return o offset
+     * @return retorna o offset
      */
     public int getOffset() {
         return offset;
@@ -238,7 +266,7 @@ public class Cache {
     }
 
     /**
-     * @return o valor do indice
+     * @return retorna o valor do indice
      */
     public int getIndice() {
         return indice;
@@ -281,7 +309,7 @@ public class Cache {
     /**
      * @param conjuntos recebe os Vias da classe Via
      */
-    public void setVias(ArrayList<Conjunto> conjuntos) {
+    public void setConjuntos(ArrayList<Conjunto> conjuntos) {
         this.conjuntos = conjuntos;
     }
 }
