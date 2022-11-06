@@ -127,16 +127,17 @@ public class Conjunto {
     }
 
     /**
-     * @return retorna o ultimo acesso
+     * @return a posição a substituir
      */
     public int getPosistionToEvict() {
         return posistionToEvict;
     }
 
     /**
-     *
+     * Método responsável por definir a posição
+     * com a timestamp mais antiga
      */
-    public void setPosistionToEvict() {
+    public void setPositionToEvict() {
         int retVal = 0;
 
         if(getCapacity() != 0){
@@ -193,10 +194,8 @@ public class Conjunto {
                 }
             }
             getVias()[offset].setTag(tag);
-
             getVias()[offset].setTimestamp();
-
-            setPosistionToEvict();
+            setPositionToEvict();
 
             if (getVias()[offset].isEmpty()) {
                 setCurrentUsage(1);

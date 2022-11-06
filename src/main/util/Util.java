@@ -52,7 +52,7 @@ public class Util {
      * Método que irá imprimir ajuda de como operar o programa
      */
     public static void printHelp() {
-        System.out.println("TO DO");
+        System.out.println("Para executar o programa se utiliza este comando base:");
     }
 
     /**
