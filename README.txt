@@ -16,6 +16,8 @@ c)RuntimeData
 d)Util
     Contém métodos de utilidade como conversores e geração
     de números pseudoaleatórios
+e)LogHandler
+f)LogStream
 
 2 - Pasta Memoria
 a)Bloco
