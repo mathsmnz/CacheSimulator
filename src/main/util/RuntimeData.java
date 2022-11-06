@@ -134,7 +134,7 @@ public class RuntimeData {
                             """,
                     getAddressCount(), totalHits, totalMisses, getMissCompulsorio(), getMissCapacidade(), getMissConflito());
         }
-        return String.format("%d %.2f %.2f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
+        return String.format("%d %.4f %.4f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
 
     }
 
