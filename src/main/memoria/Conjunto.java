@@ -18,7 +18,7 @@ public class Conjunto {
     /**
      * classe Celula
      */
-    public class Via {
+    public static class Via {
 
         private int tag = -1;
         private boolean IsEmpty;
@@ -203,39 +203,6 @@ public class Conjunto {
             } else {
                 return 1;
             }
-
-//            if (getCurrentUsage() >= getCapacity()) {
-//                if(getOutputFlag() == 0){
-//                    System.out.printf("\n[CACHE]||==> [%d] Completamente preenchido\n", getIndice());
-//                }
-//                setLinesFilled(1);
-//                return 1;
-//            } else {
-//                if (getCurrentUsage() == 0) {
-//                    setFirstElement(offset);
-//                }
-//                if (getOutputFlag() == 0) {
-//                    System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
-//                    int temp = getVias()[offset].getTag();
-//                    if(temp == -1){
-//                        System.out.printf("[CACHE]||==> Inicializando com tag => [%d]\n", tag);
-//                    }else{
-//                        System.out.printf("[CACHE]||==> [%d] => [%d]\n", temp, tag);
-//                    }
-//                }
-//                getVias()[offset].setTag(tag);
-//
-//                if (getVias()[offset].isEmpty()) {
-//                    setCurrentUsage(1);
-//                    getVias()[offset].setEmpty(false);
-//                    if(getOutputFlag() == 0){
-//                        System.out.printf("[CACHE]||==> [%d] - Espaco restante => [%d]\n", getIndice(), capacity - getCurrentUsage());
-//                    }
-//                    return 0;
-//                } else {
-//                    return 1;
-//                }
-//            }
         }
     }
 
