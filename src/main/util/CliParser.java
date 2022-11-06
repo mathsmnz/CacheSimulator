@@ -64,17 +64,33 @@ public class CliParser {
                     cacheConfig[2] = Integer.parseInt(args[2]); // assoc
 //                  cacheConfig[3] = args[3]                    // substituicao
                     cacheConfig[4] = Integer.parseInt(args[4]); // flag
-                    if (cacheConfig[4] == 0) {
-                        setOutputFlag(0);
-                        setDebugMode(1);
-                    } else if (cacheConfig[4] == 2) {
-                        RuntimeData.setUpLogging(new LogHandler(args));
-                        setOutputFlag(0);
-                        setDebugMode(1);
-                    } else {
-                        setOutputFlag(1);
-                        setDebugMode(0);
+
+                    switch (cacheConfig[4]){
+                        case 0 -> {
+                          setDebugMode(1);
+                          setOutputFlag(0);
+                        }//TERMINAL - Verboso
+                        case 1 -> {
+                            setDebugMode(0);
+                            setOutputFlag(1);
+                        }//TERMINAL - Entrega
+                        case 2 -> {
+                            setDebugMode(0);
+                            setOutputFlag(0);
+                        }//TERMINAL - Não verboso
+                        case 3 -> {
+                            RuntimeData.setUpLogging(new LogHandler(args));
+                            setDebugMode(0);
+                            setOutputFlag(0);
+                        }//TERMINAL, ARQUIVO - Não verboso
+                        case 4 -> {
+                            RuntimeData.setUpLogging(new LogHandler(args));
+                            setDebugMode(1);
+                            setOutputFlag(0);
+                        }//TERMINAL, ARQUIVO - Verboso
+                        default -> System.out.println("");
                     }
+
                     args[3] = args[3].toLowerCase(Locale.ROOT);
                     switch (args[3]) {
                         case "l" -> cacheConfig[3] = 1;

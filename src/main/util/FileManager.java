@@ -163,7 +163,7 @@ public class FileManager {
             return true;
         } else {
             if (getOutputFlag() == 0) {
-                System.out.println("[IO]|===| O arquivo \"" + path + "\" não foi encontrado");
+                System.err.println("[IO]|===| O arquivo \"" + path + "\" não foi encontrado");
             }
             return false;
         }

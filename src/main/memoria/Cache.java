@@ -113,9 +113,9 @@ public class Cache {
 
             if (conjunto.getVias()[i].getTag() == args[1]) {
                 if(getSub() == 1){
-                    conjunto.getVias()[i].setTimestamp();
+                    conjuntos.get(args[3]).getVias()[i].setTimestamp();
                 }
-                if (getOutputFlag() == 0) {
+                if (getDebugMode() == 1) {
                     System.out.printf("\n[CACHE]||==> Tag [%d] encontrada, offset [%d]\n", args[1], i);
                 }
                 return true;
@@ -145,7 +145,7 @@ public class Cache {
                     case 1 -> pos = conjunto.getPosistionToEvict();
                     case 2 -> pos = conjunto.getPosistionToEvict();
                     default -> {
-                        if (getOutputFlag() == 0) {
+                        if (getDebugMode() == 1) {
                             System.err.println("[CACHE]|==>Erro ao escolher modo de substiuição");
                         }
                     }
@@ -169,7 +169,7 @@ public class Cache {
                 event = 1;
                 setMissConflito(1);
             }
-            if (getOutputFlag() == 0) {
+            if (getDebugMode() == 1) {
                 switch (event) {
                     case 0 -> System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
                     case 1 -> System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
@@ -177,7 +177,7 @@ public class Cache {
             }
         } else {
             setMissCompulsorio(1);
-            if (getOutputFlag() == 0) {
+            if (getDebugMode() == 1) {
                 System.out.printf("[CACHE]||==> [%d] - Miss compulsorio\n", endereco);
             }
         }
@@ -192,7 +192,7 @@ public class Cache {
         if (!read(endereco)) {
             write(endereco);
         } else {
-            if (getOutputFlag() == 0) {
+            if (getDebugMode() == 1) {
                 System.out.printf("[CACHE]||==> [%d] - Hit\n", endereco);
             }
         }

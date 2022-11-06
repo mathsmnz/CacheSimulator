@@ -1,7 +1,6 @@
 package main.memoria;
 
-import static main.util.RuntimeData.getOutputFlag;
-import static main.util.RuntimeData.setLinesFilled;
+import static main.util.RuntimeData.*;
 
 /**
  * classe Conjunto
@@ -176,7 +175,7 @@ public class Conjunto {
             return -1;
         } else {
             if (getCurrentUsage() >= getCapacity()) {
-                if (getOutputFlag() == 0) {
+                if (getDebugMode() == 1) {
                     System.out.printf("\n[CACHE]||==> [%d] Completamente preenchido\n", getIndice());
                 }
                 if (!isFull) {
@@ -184,7 +183,7 @@ public class Conjunto {
                     isFull = true;
                 }
             }
-            if (getOutputFlag() == 0) {
+            if (getDebugMode() == 1) {
                 System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
                 int temp = getVias()[offset].getTag();
                 if (temp == -1) {
@@ -195,16 +194,14 @@ public class Conjunto {
             }
             getVias()[offset].setTag(tag);
 
-            if(sub == 2){
-                getVias()[offset].setTimestamp();
-            }
+            getVias()[offset].setTimestamp();
 
             setPosistionToEvict();
 
             if (getVias()[offset].isEmpty()) {
                 setCurrentUsage(1);
                 getVias()[offset].setEmpty(false);
-                if (getOutputFlag() == 0) {
+                if (getDebugMode() == 1) {
                     System.out.printf("[CACHE]||==> [%d] - Espaco restante => [%d]\n", getIndice(), capacity - getCurrentUsage());
                 }
                 return 0;

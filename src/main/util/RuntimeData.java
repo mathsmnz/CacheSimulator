@@ -104,6 +104,8 @@ public class RuntimeData {
      * @return string final com o formato escolhido
      */
     public static String getOutputLog() {
+        String retVal = "";
+
         int totalMisses = getMissCapacidade() + getMissCompulsorio() + getMissConflito();
         int temp = 0;
         if (totalMisses == 0) {
@@ -122,19 +124,25 @@ public class RuntimeData {
         int totalHits = getAddressCount() - totalMisses;
         float hitRate = (float) totalHits / (float) getAddressCount();
         float missRate = 1 - hitRate;
-        if (RuntimeData.getOutputFlag() == 0) {
-            System.out.printf("""
-                            [CACHE]|==> Resultados do benchmark
-                            [Total Access]|==> %d
-                            [Total Hits]|==> %d
-                            [Total Misses]|==> %d
-                            [Compulsory Misses]|==> %d
-                            [Capacity Misses]|==> %d
-                            [Conflict Misses]|==> %d
-                            """,
-                    getAddressCount(), totalHits, totalMisses, getMissCompulsorio(), getMissCapacidade(), getMissConflito());
+        if (RuntimeData.getDebugMode() == 1) {
+            retVal = String.format("""
+                    [CACHE]|==> Resultados do benchmark
+                    [Total Access]|==> %d
+                    [Total Hits]|==> %d
+                    [Total Misses]|==> %d
+                    [Compulsory Misses]|==> %d
+                    [Capacity Misses]|==> %d
+                    [Conflict Misses]|==> %d
+                    [Hit Rate]|==> %.4f
+                    [Miss Rate]|==> %.4f
+                    [Compulsory miss Rate]|==> %.2f
+                    [Capacity miss Rate]|==> %.2f
+                    [Conflict miss Rate]|==> %.2f
+                    """, getAddressCount(), totalHits, totalMisses, getMissCompulsorio(), getMissCapacidade(), getMissConflito(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
+        } else {
+            retVal = String.format("%d %.4f %.4f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
         }
-        return String.format("%d %.4f %.4f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
+        return retVal;
 
     }
 
