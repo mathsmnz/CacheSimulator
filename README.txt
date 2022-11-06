@@ -31,6 +31,7 @@ Este projeto contém os arquivos relevantes ao trabalho 2 de AOCII, o qual se tr
   - Classe que gerencia a cache
 
 ## 3 — Execução do programa
+- Se faz necessária a utilização do java 18.0.2 para o uso do programa
 - Para a execução do programa se utiliza a seguinte linha de comando:
     cache_simulator <nsets> <bsize> <assoc> <substituição> <flag_saida> arquivo_de_entrada
 
