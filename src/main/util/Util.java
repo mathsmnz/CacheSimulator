@@ -72,6 +72,7 @@ public class Util {
      * @return false se não for possível converter
      * @return true se for possível converter
      */
+    @SuppressWarnings("JavaDoc")
     public static Boolean isInteger(String input) {
         if (input == null) {
             return false;

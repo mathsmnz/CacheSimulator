@@ -13,85 +13,75 @@ public class RuntimeData {
     private static int missConflito = 0;
     private static int missCapacidade = 0;
     private static LogHandler log;
-    
+
     /**
-     * 
      * @param amount contagem de linhas ocupadas
      */
-    public static void setLinesFilled(int amount){
+    public static void setLinesFilled(int amount) {
         linesFilled = linesFilled + amount;
     }
-    
-     /**
-     * 
+
+    /**
      * @return numero de linhas ocupadas
      */
-    public static int getLinesFilled(){
+    public static int getLinesFilled() {
         return RuntimeData.linesFilled;
     }
-    
+
     /**
-     * 
      * @param amount conta o número de misses compulsorios
      */
     public static void setMissCompulsorio(int amount) {
         missCompulsorio = missCompulsorio + amount;
     }
-    
+
     /**
-     * 
      * @param amount conta o número de misses de capacidade
      */
     public static void setMissCapacidade(int amount) {
         missCapacidade = missCapacidade + amount;
     }
-    
+
     /**
-     * 
      * @param amount conta o numero de misses de conflito
      */
     public static void setMissConflito(int amount) {
         missConflito = missConflito + amount;
     }
 
-    public static void setUpLogging(LogHandler logHandler){
+    public static void setUpLogging(LogHandler logHandler) {
         RuntimeData.log = logHandler;
     }
-    
+
     /**
-     * 
      * @return retorna o numero de misses compulsorios
      */
     public static int getMissCompulsorio() {
         return missCompulsorio;
     }
-    
+
     /**
-     * 
      * @return retorna o numero de misses de conflito
      */
     public static int getMissConflito() {
         return missConflito;
     }
-    
+
     /**
-     * 
      * @return retorna o numero de misses de capacidade
      */
     public static int getMissCapacidade() {
         return missCapacidade;
     }
-    
+
     /**
-     * 
      * @return retorna o número de acessos
      */
     public static int getAddressCount() {
         return addressCount;
     }
-    
+
     /**
-     * 
      * @param addressCount cota o número de acessos à cache
      */
     public static void setAddressCount(int addressCount) {
@@ -99,17 +89,18 @@ public class RuntimeData {
             RuntimeData.addressCount = addressCount;
         }
     }
-    
-   /**
+
+    /**
      * Método getOutputlog é o método que retorna uma String com os resultados do benchmark
      * totalMisses = soma de todos os misses(Compulsorio + Capacidade + Conflito)
      * if de total misses -> em caso de misses derem zero. Para não dar erro na hitrate
-     * compulsoryMissRate -> ratio de miss compulsorio  
+     * compulsoryMissRate -> ratio de miss compulsorio
      * capacityMissRate -> ratio de miss capacidade
-     * conflictMissRate -> ratio de miss conflito 
+     * conflictMissRate -> ratio de miss conflito
      * totalHits -> hits totais
      * hitRate -> ratio de hits totais
      * missRate -> ratio de misses totais
+     *
      * @return string final com o formato escolhido
      */
     public static String getOutputlog() {
@@ -124,14 +115,14 @@ public class RuntimeData {
         float capacityMissRate = (float) getMissCapacidade() / (float) totalMisses;
         float conflictMissRate = (float) getMissConflito() / (float) totalMisses;
 
-        if(temp == 1){
+        if (temp == 1) {
             totalMisses = 0;
         }
 
         int totalHits = getAddressCount() - totalMisses;
         float hitRate = (float) totalHits / (float) getAddressCount();
         float missRate = 1 - hitRate;
-        if(RuntimeData.getOutputFlag() == 0){
+        if (RuntimeData.getOutputFlag() == 0) {
             System.out.printf("""
                             [CACHE]|==> Resultados do benchmark
                             [Total Access]|==> %d
@@ -146,33 +137,29 @@ public class RuntimeData {
         return String.format("%d %.2f %.2f %.2f %.2f %.2f", getAddressCount(), hitRate, missRate, compulsoryMissRate, capacityMissRate, conflictMissRate);
 
     }
-    
+
     /**
-     * 
      * @return flag do output
      */
     public static int getOutputFlag() {
         return outputFlag;
     }
-    
+
     /**
-     * 
      * @param outputFlag variavel que determina o formato da saida
      */
     public static void setOutputFlag(int outputFlag) {
         RuntimeData.outputFlag = outputFlag;
     }
-    
+
     /**
-     * 
      * @return debug
      */
     public static int getDebugMode() {
         return debugMode;
     }
-    
+
     /**
-     * 
      * @param debugMode muda o estado do debug
      */
     public static void setDebugMode(int debugMode) {

@@ -1,6 +1,7 @@
 package main.memoria;
 
-import static main.util.RuntimeData.*;
+import static main.util.RuntimeData.getOutputFlag;
+import static main.util.RuntimeData.setLinesFilled;
 
 /**
  * classe Bloco
@@ -31,7 +32,7 @@ public class Conjunto {
         }
 
         /**
-         * @param tag
+         * @param tag a ser inicializado
          */
         public void setTag(int tag) {
             this.tag = tag;
@@ -81,21 +82,21 @@ public class Conjunto {
     }
 
     /**
-     * @param amount
+     * @param amount a ser incrementado
      */
     public void setCurrentUsage(int amount) {
         this.currentUsage = this.currentUsage + amount;
     }
 
     /**
-     * @return
+     *
      */
     public Via[] getVias() {
         return vias;
     }
 
     /**
-     * @param vias
+     * @param vias array de Via com a capacidade já definida
      */
     public void setVias(Via[] vias) {
         this.vias = vias;
@@ -112,7 +113,7 @@ public class Conjunto {
     }
 
     /**
-     * @param capacity
+     * @param capacity a ser inicializada
      */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
@@ -127,7 +128,7 @@ public class Conjunto {
     }
 
     /**
-     * @param indice
+     * @param indice a ser inicializado
      */
     public void setIndice(int indice) {
         this.indice = indice;
@@ -141,15 +142,15 @@ public class Conjunto {
     }
 
     /**
-     * @param lastUsed
+     * @param lastUsed a ser definido
      */
     public void setLastUsed(int lastUsed) {
         this.lastUsed = lastUsed;
     }
 
     /**
-     * @param indice
-     * @param offset
+     * @param indice deste conjunto
+     * @param offset numero de posicoes deste conjunto
      */
     public Conjunto(int indice, int offset) {
         setIndice(indice);
@@ -158,8 +159,8 @@ public class Conjunto {
     }
 
     /**
-     * @param offset
-     * @param tag
+     * @param offset posição a ser acessada
+     * @param tag    a ser escrita
      * @return valores
      * Erro -> -1
      * Ha espaco -> 0
@@ -174,7 +175,7 @@ public class Conjunto {
                 if (getOutputFlag() == 0) {
                     System.out.printf("\n[CACHE]||==> [%d] Completamente preenchido\n", getIndice());
                 }
-                if(!isFull){
+                if (!isFull) {
                     setLinesFilled(1);
                     isFull = true;
                 }

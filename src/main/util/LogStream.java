@@ -1,6 +1,5 @@
 package main.util;
 
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 
@@ -11,10 +10,10 @@ import java.io.PrintStream;
  */
 
 public class LogStream extends PrintStream {
-    private PrintStream logOutput = null;
-    private PrintStream consoleOutput = null;
+    private final PrintStream logOutput = null;
+    private final PrintStream consoleOutput;
 
-    public LogStream(final PrintStream consoleOutput, final PrintStream logOutput) throws FileNotFoundException {
+    public LogStream(final PrintStream consoleOutput, final PrintStream logOutput) {
         super(logOutput, true);
         this.consoleOutput = consoleOutput;
 

@@ -16,7 +16,6 @@ public class Cache {
     private int tag;
     private int indice;
     private int sub;
-    private int capacidade = 0;
     private ArrayList<Conjunto> conjuntos;
 
     /**
@@ -34,11 +33,11 @@ public class Cache {
         this.setTag(32 - getOffset() - getIndice());
         this.setAssoc(assoc);
         this.setSub(sub);
-        this.capacidade = assoc * nset;
+        int capacidade = assoc * nset;
         setConjuntos(new ArrayList<>(nset));
         initConjuntos(assoc, nset);
 
-        if(getOutputFlag() == 0){
+        if (getOutputFlag() == 0) {
             System.out.printf("[CACHE]|==> n_offset: %d\n", getOffset());
             System.out.printf("[CACHE]|==> n_indice: %d\n", getIndice());
             System.out.printf("[CACHE]|==> n_tag: %d\n", getTag());
@@ -80,9 +79,9 @@ public class Cache {
         } else {
             retVal[2] = 0;
         } // offset
-        if(getIndice() > 0){
+        if (getIndice() > 0) {
             retVal[3] = Integer.parseInt(convertedAddress.substring(getTag(), 32 - getOffset()), 2);
-        }else{
+        } else {
             retVal[3] = 0;
         } // indice
         return retVal;
@@ -106,9 +105,9 @@ public class Cache {
         }
 
 
-        for(int i = 0; i < conjunto.getVias().length; i++){
-            if(conjunto.getVias()[i].getTag() == args[1]){
-                if(getOutputFlag() == 0){
+        for (int i = 0; i < conjunto.getVias().length; i++) {
+            if (conjunto.getVias()[i].getTag() == args[1]) {
+                if (getOutputFlag() == 0) {
                     System.out.printf("\n[CACHE]||==> Tag [%d] encontrada, offset [%d]\n", args[1], i);
                 }
                 return true;
@@ -125,15 +124,13 @@ public class Cache {
      * 2 - Escrita com erro de capacidade
      *
      * @param endereco endereco para a realizacao da leitura
-     * @return resultado da escrita
      */
-    private int write(int endereco) {
+    private void write(int endereco) {
         if (getVias() != null) {
             int pos = 0;
             int[] args = decode(endereco);
             Conjunto conjunto = conjuntos.get(args[3]);
             if (getAssoc() > 1) {
-                int off = args[2];
 
                 switch (getSub()) {
                     case 1 -> pos = getRandom(getAssoc() - 1);
@@ -150,14 +147,10 @@ public class Cache {
 
             missHandler(output, endereco);
 
-            return output;
         }
-        return -1;
     }
 
     private void missHandler(int input, int endereco) {
-
-        int miss = 0;
 
         if (input != 0) {
             int event = 0;
@@ -170,12 +163,8 @@ public class Cache {
             }
             if (getOutputFlag() == 0) {
                 switch (event) {
-                    case 0 -> {
-                        System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
-                    }
-                    case 1 -> {
-                        System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
-                    }
+                    case 0 -> System.out.printf("[CACHE]||==> [%d] - Miss capacidade\n", endereco);
+                    case 1 -> System.out.printf("[CACHE]||==> [%d] - Miss conflito\n", endereco);
                 }
             }
         } else {
@@ -194,8 +183,8 @@ public class Cache {
     public void find(int endereco) {
         if (!read(endereco)) {
             write(endereco);
-        }else{
-            if(getOutputFlag() == 0){
+        } else {
+            if (getOutputFlag() == 0) {
                 System.out.printf("[CACHE]||==> [%d] - Hit\n", endereco);
             }
         }

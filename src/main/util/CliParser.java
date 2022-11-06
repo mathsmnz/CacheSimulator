@@ -67,11 +67,11 @@ public class CliParser {
                     if (cacheConfig[4] == 0) {
                         setOutputFlag(0);
                         setDebugMode(1);
-                    } else if(cacheConfig[4] == 2){
+                    } else if (cacheConfig[4] == 2) {
                         RuntimeData.setUpLogging(new LogHandler(args));
                         setOutputFlag(0);
                         setDebugMode(1);
-                    }else{
+                    } else {
                         setOutputFlag(1);
                         setDebugMode(0);
                     }
@@ -80,9 +80,7 @@ public class CliParser {
                         case "l" -> cacheConfig[3] = 0;
                         case "r" -> cacheConfig[3] = 1;
                         case "f" -> cacheConfig[3] = 2;
-                        default -> {
-                            System.out.println("[ARGS]|==>Erro, modo de substiuição não reconhecido!");
-                        }
+                        default -> System.out.println("[ARGS]|==>Erro, modo de substiuição não reconhecido!");
                     }
 
                     int nsets = cacheConfig[0];

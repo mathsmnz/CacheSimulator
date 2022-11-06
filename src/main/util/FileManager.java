@@ -13,6 +13,7 @@ public class FileManager {
 
     /**
      * Responsável por criar o arquivo caso necessário
+     *
      * @param path caminho do arquivo
      * @return retorna false se houver erro na execucão
      */
@@ -43,6 +44,7 @@ public class FileManager {
 
     /**
      * Converte um int para um byte de acordo com o arquivo de entrada
+     *
      * @param input valor a ser convertido
      * @return "valor" convertido
      */
@@ -57,10 +59,11 @@ public class FileManager {
         return retVal;
     }
 
-   /**
-     *  Responsável por escrever os dados fornecidos 
-     *  pelo usuário em um arquivo de saída
-     * @param path caminho para escrita
+    /**
+     * Responsável por escrever os dados fornecidos
+     * pelo usuário em um arquivo de saída
+     *
+     * @param path  caminho para escrita
      * @param input lista com os numeros a serem escritos
      * @return arquivo de saída
      */
@@ -86,9 +89,10 @@ public class FileManager {
             return false;
         }
     }
-    
+
     /**
      * Lê o arquivo binário
+     *
      * @param arquivo de entrada
      * @return -1 em caso de erro
      */
@@ -105,8 +109,9 @@ public class FileManager {
         }
     }
 
-   /**
+    /**
      * Responsável por ler os arquivos, devolvendo uma ArrayList com o que foi lido
+     *
      * @param path caminho do arquivo a ser lido
      * @return ArrayList do que foi lido
      */
@@ -145,6 +150,7 @@ public class FileManager {
     /**
      * Verifica se o arquivo existe e é de fato um arquivo,
      * depois devolvendo se a operação foi um sucesso
+     *
      * @param path caminho do arquivo a ser verificado
      * @return uma mensagem ao usuário relevante á operação feita
      */

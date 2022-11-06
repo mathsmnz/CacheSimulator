@@ -3,20 +3,14 @@ package main;
 import main.memoria.Cache;
 import main.util.CliParser;
 import main.util.FileManager;
-import main.util.LogHandler;
-import main.util.LogStream;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static main.util.RuntimeData.*;
-import static main.util.Util.*;
+import static main.util.Util.printHelp;
 
 public class Main extends FileManager {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (getDebugMode() == 0) {
             CliParser parser = new CliParser(args);
             int op = parser.parse();
