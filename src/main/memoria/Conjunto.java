@@ -4,25 +4,32 @@ import static main.util.RuntimeData.getOutputFlag;
 import static main.util.RuntimeData.setLinesFilled;
 
 /**
- * classe Bloco
+ * classe Conjunto
  */
 public class Conjunto {
 
     private int indice = -1;
-    private int lastUsed;
+    private int posistionToEvict;
     private int capacity;
     private boolean isFull = false;
     private int currentUsage;
-    private int firstElement;
     private Via[] vias;
 
     /**
      * classe Via
      */
     public static class Via {
-
+        private long timestamp = 0;
         private int tag = -1;
         private boolean IsEmpty;
+
+        public long getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp() {
+            this.timestamp = System.currentTimeMillis();
+        }
 
         /**
          * @return retorna a tag
@@ -58,20 +65,6 @@ public class Conjunto {
         public Via() {
             this.IsEmpty = true;
         }
-    }
-
-    /**
-     * @return primeiro elemento
-     */
-    public int getFirstElement() {
-        return firstElement;
-    }
-
-    /**
-     * @param firstElement primeiro elemento da fila
-     */
-    public void setFirstElement(int firstElement) {
-        this.firstElement = firstElement;
     }
 
     /**
@@ -137,15 +130,27 @@ public class Conjunto {
     /**
      * @return retorna o ultimo acesso
      */
-    public int getLastUsed() {
-        return lastUsed;
+    public int getPosistionToEvict() {
+        return posistionToEvict;
     }
 
     /**
-     * @param lastUsed a ser definido
+     *
      */
-    public void setLastUsed(int lastUsed) {
-        this.lastUsed = lastUsed;
+    public void setPosistionToEvict() {
+        int retVal = 0;
+
+        if(getCapacity() != 0){
+            int pos = 0;
+            for(int i = 1; i < getCapacity(); i++){
+                if(getVias()[i].getTimestamp() < getVias()[i - 1].timestamp){
+                    pos = i;
+                }
+            }
+            retVal = pos;
+        }
+
+        this.posistionToEvict = retVal;
     }
 
     /**
@@ -166,7 +171,7 @@ public class Conjunto {
      * Ha espaço → 0 <br>
      * Miss de Conflito → 1 <br>
      */
-    public int access(int offset, int tag) {
+    public int access(int offset, int tag, int sub) {
         if (getVias() == null) {
             return -1;
         } else {
@@ -179,9 +184,6 @@ public class Conjunto {
                     isFull = true;
                 }
             }
-            if (getCurrentUsage() == 0) {
-                setFirstElement(offset);
-            }
             if (getOutputFlag() == 0) {
                 System.out.printf("\n[CACHE]||==> Substituindo elemento [%d]\n", offset);
                 int temp = getVias()[offset].getTag();
@@ -192,6 +194,12 @@ public class Conjunto {
                 }
             }
             getVias()[offset].setTag(tag);
+
+            if(sub == 2){
+                getVias()[offset].setTimestamp();
+            }
+
+            setPosistionToEvict();
 
             if (getVias()[offset].isEmpty()) {
                 setCurrentUsage(1);

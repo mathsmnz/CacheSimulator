@@ -77,8 +77,8 @@ public class CliParser {
                     }
                     args[3] = args[3].toLowerCase(Locale.ROOT);
                     switch (args[3]) {
-                        case "l" -> cacheConfig[3] = 0;
-                        case "r" -> cacheConfig[3] = 1;
+                        case "l" -> cacheConfig[3] = 1;
+                        case "r" -> cacheConfig[3] = 0;
                         case "f" -> cacheConfig[3] = 2;
                         default -> System.out.println("[ARGS]|==>Erro, modo de substiuição não reconhecido!");
                     }

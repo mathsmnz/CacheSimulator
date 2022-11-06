@@ -67,11 +67,11 @@ public class Cache {
      * retornando argumentos a serem operados
      *
      * @param address a ser decodificado
-     * @return int[] com os argumentos decodificados:
-     *            0 → address <br>
-     *            1 → tag <br>
-     *            2 → offset <br>
-     *            3 → índice <br>
+     * @return int[] com os argumentos decodificados: <br>
+     * 0 → address <br>
+     * 1 → tag <br>
+     * 2 → offset <br>
+     * 3 → índice <br>
      */
     private int[] decode(int address) {
         int[] retVal = new int[4];
@@ -93,9 +93,9 @@ public class Cache {
 
     /**
      * Método para a leitura em cache
-     * Possiveis retornos:
-     * true → hit,
-     * false → miss
+     * Possiveis retornos: <br>
+     * true → hit <br>
+     * false → miss <br>
      *
      * @param endereco recebe endereco
      * @return retorna falso caso já tenha algo na cache
@@ -110,7 +110,11 @@ public class Cache {
 
 
         for (int i = 0; i < conjunto.getVias().length; i++) {
+
             if (conjunto.getVias()[i].getTag() == args[1]) {
+                if(getSub() == 1){
+                    conjunto.getVias()[i].setTimestamp();
+                }
                 if (getOutputFlag() == 0) {
                     System.out.printf("\n[CACHE]||==> Tag [%d] encontrada, offset [%d]\n", args[1], i);
                 }
@@ -137,9 +141,9 @@ public class Cache {
             if (getAssoc() > 1) {
 
                 switch (getSub()) {
-                    case 1 -> pos = getRandom(getAssoc() - 1);
-                    case 2 -> pos = conjunto.getFirstElement();
-                    case 3 -> pos = conjunto.getLastUsed();
+                    case 0 -> pos = getRandom(getAssoc() - 1);
+                    case 1 -> pos = conjunto.getPosistionToEvict();
+                    case 2 -> pos = conjunto.getPosistionToEvict();
                     default -> {
                         if (getOutputFlag() == 0) {
                             System.err.println("[CACHE]|==>Erro ao escolher modo de substiuição");
@@ -147,7 +151,7 @@ public class Cache {
                     }
                 }
             }
-            int output = conjunto.access(pos, args[1]);
+            int output = conjunto.access(pos, args[1], getSub());
 
             missHandler(output, endereco);
 
